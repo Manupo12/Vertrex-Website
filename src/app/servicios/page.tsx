@@ -107,14 +107,12 @@ export default function ServiciosPage() {
                                 <ul className="mt-6 space-y-3 text-sm text-foreground/90">
                                     {service.offerings.map(offering => ( <li key={offering} className="flex items-start gap-x-3"> <svg className="h-5 w-5 flex-none text-primary mt-1" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" /></svg> <span>{offering}</span> </li> ))}
                                 </ul>
-                                {/* BOTÓN AÑADIDO A LA VISTA DE PC */}
                                 <div className="mt-8">
                                     <Link href="/contacto" className="inline-block rounded-md bg-primary px-4 py-2 text-sm font-semibold text-background shadow-sm hover:bg-primary/80 transition-colors">
                                         Cotizar este servicio &rarr;
                                     </Link>
                                 </div>
                             </div>
-                            {/* MARCO AÑADIDO A LA IMAGEN DE PC */}
                             <div className={`relative w-full h-96 rounded-2xl overflow-hidden lg:order-${service.imageSide === 'left' ? '1' : '2'} lg:ring-1 lg:ring-white/10 lg:ring-offset-8 lg:ring-offset-background`}>
                                 <Image src={service.imageUrl} alt={`Imagen para ${service.title}`} fill sizes="50vw" className="object-cover" />
                             </div>
@@ -124,7 +122,7 @@ export default function ServiciosPage() {
             </div>
         </div>
 
-        {/* OUR PROCESS SECTION */}
+        
         <div className="bg-white/5 py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <ScrollAnimationWrapper className="mx-auto max-w-2xl text-center mb-16">
@@ -137,7 +135,6 @@ export default function ServiciosPage() {
             </div>
         </div>
 
-        {/* FINAL CTA SECTION */}
         <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32 text-center">
             <ScrollAnimationWrapper>
                 <h2 className="font-display text-3xl font-bold tracking-tight text-secondary sm:text-4xl">

@@ -42,7 +42,6 @@ const FormField: React.FC<FormFieldProps> = ({ id, label, type = 'text', name, v
   </motion.div>
 );
 
-// --- Componente Principal del Formulario de Contacto (AHORA ES UN COMPONENTE REUTILIZABLE) ---
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',

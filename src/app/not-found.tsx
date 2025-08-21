@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center text-center h-screen bg-background -mt-24"> {/*  para compensar la altura del header */}
+    <div className="flex flex-col items-center justify-center text-center h-screen bg-background -mt-24"> 
       <p className="text-base font-semibold text-primary font-display tracking-widest">404</p>
       <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">Página No Encontrada</h1>
       <p className="mt-6 text-base leading-7 text-foreground/70">Lo sentimos, no pudimos encontrar la página que estás buscando.</p>

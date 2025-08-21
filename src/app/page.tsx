@@ -21,7 +21,7 @@ const HeroSection = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: 'spring', stiffness: 100 },
+      transition: { stiffness: 100 },
     },
   };
 
@@ -115,7 +115,6 @@ const FeaturedProjectsSection = () => {
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           {featuredProjects.map((project) => (
             <Link href="/portafolio" key={project.title} className="group relative block h-64 rounded-2xl overflow-hidden">
-              {/* Lógica para mostrar la imagen o un marcador de posición */}
               {project.imageUrl ? (
                 <Image
                   src={project.imageUrl}

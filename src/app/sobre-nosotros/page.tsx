@@ -47,7 +47,6 @@ export default function SobreNosotrosPage() {
                         </div>
                     </div>
                     
-                    {/* 2. Reemplazamos el div por el componente Image */}
                     <div className="relative w-full h-80 rounded-xl overflow-hidden">
                         <Image
                             src="/images/sobre-nosotros-mision.webp" 

@@ -31,7 +31,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
-        <WhatsAppButton /> {/*  Se añade el botón aquí */}
+        <WhatsAppButton /> 
       </body>
     </html>
   )
