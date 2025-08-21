@@ -1,0 +1,55 @@
+# Archivo .gitignore optimizado para Vertrex (Next.js + TypeScript)
+
+# 1. Build & Dependencias
+# Ignora los paquetes instalados y los archivos de compilación de Next.js.
+# -------------------------------------------------------------------
+/node_modules
+/.next/
+/out/
+/build
+.pnp.*
+
+# 2. Archivos de Entorno (SECRETOS)
+# Ignora las variables de entorno locales que contienen claves de API y otros secretos.
+# Es crucial para la seguridad no subir estos archivos a GitHub.
+# -------------------------------------------------------------------
+.env.local
+.env.development.local
+.env.production.local
+
+# 3. Archivos de Log y Debug
+# Ignora los registros de errores y depuración generados automáticamente.
+# -------------------------------------------------------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# 4. Archivos Específicos del Sistema Operativo y Misc.
+# Ignora archivos generados por el sistema operativo (como macOS) y certificados.
+# -------------------------------------------------------------------
+.DS_Store
+*.pem
+
+# 5. Configuración de Editor / IDE
+# Evita que las configuraciones personales de tu editor de código se suban.
+# -------------------------------------------------------------------
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# 6. Archivos de Vercel y TypeScript
+# Ignora archivos de caché y configuración generados por Vercel y TypeScript.
+# -------------------------------------------------------------------
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+
+# 7. Excepciones para Yarn Berry (si se usa)
+# -------------------------------------------------------------------
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions

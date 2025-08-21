@@ -1,0 +1,40 @@
+
+@import "tailwindcss";
+
+:root {
+  --font-chakra-petch: 'Chakra Petch', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  
+  --color-background: #0A0A0A; /* Negro profundo para un look serio y moderno. */
+  --color-text-main: #E5E5E5;  /* Blanco suave para una legibilidad óptima. */
+  --color-primary: #00FF7F;     /* Verde Primavera: tecnológico, vibrante pero más sofisticado. */
+  --color-secondary: #FFFFFF;    /* Blanco puro: para acentos de alto contraste y limpieza. */
+}
+
+@theme {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-text-main);
+  
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-chakra-petch);
+}
+
+@layer utilities {
+  @keyframes subtle-pulse {
+    '0%, 100%': { opacity: '0.2' };
+    '50%': { opacity: '0.4' };
+  }
+  
+  .animate-subtle-pulse {
+    animation: subtle-pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
