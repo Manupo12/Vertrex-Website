@@ -32,8 +32,8 @@ const FormField: React.FC<FormFieldProps> = ({ id, label, type = 'text', name, v
         <textarea id={id} name={name} value={value} onChange={onChange} required={required} rows={4} className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-foreground shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition" />
       ) : isSelect ? (
         <select id={id} name={name} value={value} onChange={onChange} required={required} className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-foreground shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition">
-          <option value="" disabled>Selecciona un servicio...</option>
-          {options.map(option => <option key={option} value={option}>{option}</option>)}
+          <option value="" disabled className="bg-background text-foreground/50">Selecciona un servicio...</option>
+          {options.map(option => <option key={option} value={option} className="bg-background text-foreground">{option}</option>)}
         </select>
       ) : (
         <input type={type} id={id} name={name} value={value} onChange={onChange} required={required} className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-foreground shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition" />
@@ -119,7 +119,13 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             isSelect
-            options={[ 'Desarrollo de Software', 'Marketing Digital', 'Productos Vertrex', 'Servicios Físicos', 'Otro' ]}
+            options={[ 
+                'Páginas Web', 
+                'Apps Nativas para Android', 
+                'Software a Medida', 
+                'Marketing Digital',
+                'Otro' 
+            ]}
             className="sm:col-span-2"
           />
           <FormField id="message" label="¿Cómo podemos ayudarte?" name="message" value={formData.message} onChange={handleChange} required isTextArea className="sm:col-span-2" />

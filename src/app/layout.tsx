@@ -15,9 +15,16 @@ const chakraPetch = Chakra_Petch({
   variable: '--font-chakra-petch',
 })
 
-export const metadata = {
-  title: 'Vertrex | Ingenio Humano, Tecnología de Vanguardia',
-  description: 'Fusionamos código experto, estrategia creativa y diseño minimalista.',
+export const metadata: Metadata = {
+  title: 'Vertrex | Soluciones Digitales que te Entienden',
+  description: 'Desarrollo de páginas web, apps para Android y marketing digital en Neiva. Obtén una demo gratuita de tu proyecto. Calidad profesional a precios justos.',
+  themeColor: '#0A0A0A',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1, 
+    userScalable: false,
+  },
 }
 
 export default function RootLayout({
@@ -26,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className="h-full">
-      <body className={`${inter.variable} ${chakraPetch.variable} h-full flex flex-col`}>
+    <html lang="es" className="h-full scroll-smooth">
+      <body className={`${inter.variable} ${chakraPetch.variable} h-full flex flex-col bg-background font-sans text-foreground`}>
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />

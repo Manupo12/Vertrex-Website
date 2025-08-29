@@ -1,11 +1,50 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
+import { HiXMark } from 'react-icons/hi2'
 
+// --- Componente para el Botón de Menú Animado ---
+const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
+  return (
+    <button
+      type="button"
+      className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-foreground z-50"
+      onClick={onClick}
+      aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" className="stroke-current">
+        <motion.path
+          variants={{ closed: { d: "M 2 6.5 L 22 6.5" }, open: { d: "M 3 18 L 18 3" } }}
+          initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
+        />
+        <motion.path
+          d="M 2 12.5 L 22 12.5"
+          variants={{ closed: { opacity: 1 }, open: { opacity: 0 } }}
+          initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
+        />
+        <motion.path
+          variants={{ closed: { d: "M 2 18.5 L 22 18.5" }, open: { d: "M 3 3 L 18 18" } }}
+          initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
+        />
+      </svg>
+    </button>
+  );
+};
+
+// --- Componente Principal del Header ---
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [mobileMenuOpen]);
 
   const links = [
     { href: '/servicios', label: 'Servicios' },
@@ -14,11 +53,21 @@ export function Header() {
     { href: '/contacto', label: 'Contacto' },
   ]
 
-  const menuVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-    exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
+  const menuPanelVariants: Variants = {
+    hidden: { x: "100%", opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 30 } },
+    exit: { x: "100%", opacity: 0, transition: { duration: 0.3, ease: 'easeInOut' } },
   }
+  
+  const menuContainerVariants: Variants = {
+    visible: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
+    hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } }
+  };
+
+  const menuItemVariants: Variants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } },
+  };
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
@@ -28,79 +77,70 @@ export function Header() {
             VERTREX S.C.
           </Link>
         </div>
-
         <div className="hidden lg:flex lg:gap-x-12">
-          {links.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors">
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => ( <Link key={link.href} href={link.href} className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"> {link.label} </Link> ))}
         </div>
-
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="/contacto" className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-background shadow-sm hover:bg-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+          <Link href="/contacto" className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-background shadow-sm hover:bg-primary/80">
             Cotizar Proyecto
           </Link>
         </div>
-        
         <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-foreground"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Abrir menú principal</span>
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-          </button>
+          <MenuButton isOpen={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
         </div>
       </nav>
 
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
-            className="lg:hidden"
-            variants={menuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <div className="fixed inset-0 z-50" />
-            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/50 z-40"
+            />
+            <motion.div 
+              className="fixed inset-y-0 right-0 z-50 w-full max-w-xs overflow-y-auto bg-background p-6 shadow-xl"
+              variants={menuPanelVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
               <div className="flex items-center justify-between">
-                <Link href="/" className="-m-1.5 p-1.5 font-display text-2xl font-bold tracking-wider text-primary">
-                  VERTREX S.C.
-                </Link>
+                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="-m-1.5 p-1.5 font-display text-2xl font-bold tracking-wider text-primary">VERTREX S.C.</Link>
                 <button
                   type="button"
-                  className="-m-2.5 rounded-md p-2.5 text-foreground"
+                  className="-m-2.5 rounded-md p-2.5 text-foreground transition-colors hover:text-primary"
                   onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Cerrar menú"
                 >
-                  <span className="sr-only">Cerrar menú</span>
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <HiXMark className="h-6 w-6" />
                 </button>
               </div>
-              <div className="mt-6 flow-root">
+              <motion.div
+                className="mt-12 flow-root"
+                variants={menuContainerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 <div className="-my-6 divide-y divide-gray-500/25">
                   <div className="space-y-2 py-6">
                     {links.map((link) => (
-                      <Link key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-primary/10 hover:text-primary">
-                        {link.label}
-                      </Link>
+                      <motion.div key={link.href} variants={menuItemVariants}>
+                        <Link href={link.href} onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground transition-colors hover:bg-primary/10 hover:text-primary">{link.label}</Link>
+                      </motion.div>
                     ))}
                   </div>
                   <div className="py-6">
-                    <Link href="/contacto" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-foreground hover:bg-primary/10 hover:text-primary">
-                      Cotizar Proyecto
-                    </Link>
+                    <motion.div variants={menuItemVariants}>
+                      <Link href="/contacto" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg bg-primary/10 px-3 py-2.5 text-base font-semibold leading-7 text-primary transition-colors hover:bg-primary/20">Cotizar Proyecto</Link>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
