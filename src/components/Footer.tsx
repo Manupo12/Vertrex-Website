@@ -1,13 +1,16 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { FaWhatsapp, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa'
 import { IoMail } from 'react-icons/io5'
 import type { IconType } from 'react-icons'
 
+// 1. AÑADIMOS 'Demos' A LA NAVEGACIÓN
 const navigation = {
   solutions: [
     { name: 'Servicios', href: '/servicios' },
+    { name: 'Demos', href: '/demos' },
     { name: 'Portafolio', href: '/portafolio' },
   ],
   company: [
@@ -32,8 +35,20 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-4">
-            <Link href="/" className="font-display text-2xl font-bold tracking-wider text-primary">
-              VERTREX S.C.
+            {/* 2. REEMPLAZAMOS EL TEXTO POR EL LOGO Y TEXTO COMBINADOS */}
+            <Link href="/" className="inline-block" aria-label="Inicio">
+              <div className="flex items-center gap-x-3">
+                <Image
+                    className="h-8 w-auto"
+                    src="/images/logo.png"
+                    alt="Logo de Vertrex"
+                    width={32}
+                    height={32}
+                />
+                <span className="font-display text-2xl font-bold tracking-wider text-primary">
+                  VERTREX S.C.
+                </span>
+              </div>
             </Link>
             <p className="text-sm leading-6 text-foreground/70">
               Soluciones digitales que te entienden. Creamos la tecnología que tu negocio en Neiva necesita para crecer, a un precio justo.

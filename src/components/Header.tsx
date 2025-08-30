@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { HiXMark } from 'react-icons/hi2'
 
@@ -16,7 +17,10 @@ const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void 
     >
       <svg width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" className="stroke-current">
         <motion.path
-          variants={{ closed: { d: "M 2 6.5 L 22 6.5" }, open: { d: "M 3 18 L 18 3" } }}
+          variants={{
+            closed: { d: "M 2 6.5 L 22 6.5" },
+            open: { d: "M 3 18 L 18 3" },
+          }}
           initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
         />
         <motion.path
@@ -25,7 +29,10 @@ const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void 
           initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
         />
         <motion.path
-          variants={{ closed: { d: "M 2 18.5 L 22 18.5" }, open: { d: "M 3 3 L 18 18" } }}
+          variants={{
+            closed: { d: "M 2 18.5 L 22 18.5" },
+            open: { d: "M 3 3 L 18 18" },
+          }}
           initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
         />
       </svg>
@@ -48,6 +55,7 @@ export function Header() {
 
   const links = [
     { href: '/servicios', label: 'Servicios' },
+    { href: '/demos', label: 'Demos' },
     { href: '/portafolio', label: 'Portafolio' },
     { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
     { href: '/contacto', label: 'Contacto' },
@@ -73,18 +81,33 @@ export function Header() {
     <header className="fixed top-0 left-0 w-full z-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 border-b border-primary/10 backdrop-blur-md bg-background/80">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 font-display text-2xl font-bold tracking-wider text-primary hover:text-secondary transition-colors">
-            VERTREX S.C.
+          <Link href="/" className="-m-1.5 p-1.5" aria-label="Inicio">
+            <div className="flex items-center gap-x-3">
+              <Image
+                className="h-8 w-auto"
+                src="/images/logo.png"
+                alt="Logo de Vertrex"
+                width={32}
+                height={32}
+                priority
+              />
+              <span className="font-display text-2xl font-bold tracking-wider text-primary hover:text-secondary transition-colors">
+                VERTREX S.C.
+              </span>
+            </div>
           </Link>
         </div>
+
         <div className="hidden lg:flex lg:gap-x-12">
           {links.map((link) => ( <Link key={link.href} href={link.href} className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"> {link.label} </Link> ))}
         </div>
+
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link href="/contacto" className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-background shadow-sm hover:bg-primary/80">
             Cotizar Proyecto
           </Link>
         </div>
+        
         <div className="flex lg:hidden">
           <MenuButton isOpen={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
         </div>
@@ -108,7 +131,14 @@ export function Header() {
               exit="exit"
             >
               <div className="flex items-center justify-between">
-                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="-m-1.5 p-1.5 font-display text-2xl font-bold tracking-wider text-primary">VERTREX S.C.</Link>
+                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="-m-1.5 p-1.5" aria-label="Inicio">
+                   <div className="flex items-center gap-x-3">
+                      <Image className="h-8 w-auto" src="/images/logo-vertrex.svg" alt="Logo de Vertrex" width={32} height={32} />
+                      <span className="font-display text-2xl font-bold tracking-wider text-primary">
+                        VERTREX S.C.
+                      </span>
+                   </div>
+                </Link>
                 <button
                   type="button"
                   className="-m-2.5 rounded-md p-2.5 text-foreground transition-colors hover:text-primary"
