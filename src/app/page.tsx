@@ -1,22 +1,26 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
+import useEmblaCarousel from 'embla-carousel-react'
 import { TypeAnimation } from 'react-type-animation'
-import { HiOutlineDesktopComputer } from 'react-icons/hi'
-import { HiOutlineDevicePhoneMobile, HiOutlineSparkles, HiOutlineChevronDown } from 'react-icons/hi2' 
+import { HiOutlineDesktopComputer, HiOutlineDeviceMobile, HiOutlineSparkles } from 'react-icons/hi'
+import { HiOutlineChevronDown, HiArrowLeft, HiArrowRight } from 'react-icons/hi2'
 import { FaReact, FaNodeJs } from 'react-icons/fa'
 import { SiNextdotjs, SiTypescript, SiTailwindcss } from 'react-icons/si'
 import { projects } from '@/lib/projects-data'
+import { demos } from '@/lib/demos-data'
 import { AppProjectCard, WebProjectCard } from '@/components/ProjectCards'
 
+// --- Componente HeroSection ---
 const HeroSection = () => {
   const [activeService, setActiveService] = useState(0);
 
   const services = [
     { text: 'tu página web', icon: <HiOutlineDesktopComputer className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
-    { text: 'tu app nativa', icon: <HiOutlineDevicePhoneMobile className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
+    { text: 'tu app nativa', icon: <HiOutlineDeviceMobile className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
     { text: 'tu automatización con IA', icon: <HiOutlineSparkles className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
   ];
 
@@ -106,6 +110,89 @@ const HeroSection = () => {
   );
 };
 
+// --- Componente: FeaturedDemos ---
+const FeaturedDemos = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [activeView, setActiveView] = useState<'desktop' | 'mobile'>('desktop');
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
+  return (
+    <section className="py-16 sm:py-24 bg-background">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            className="mx-auto max-w-3xl text-center"
+        >
+          <h2 className="text-3xl font-bold sm:text-4xl font-display text-primary">Demos Hechas Realidad</h2>
+          <p className="mt-4 text-lg text-foreground/80">
+            Esto es lo que podemos crear para ti. Cada demo es un punto de partida; el diseño final se ajusta 100% a tu visión y necesidades.
+          </p>
+        </motion.div>
+
+        <div className="mt-16">
+          <div className="overflow-hidden rounded-lg" ref={emblaRef}>
+            <div className="flex">
+              {demos.map((demo, index) => (
+                <div key={index} className="relative flex-[0_0_100%] min-w-0 pl-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center p-1 bg-white/5 rounded-2xl border border-white/10">
+                    <div className="lg:col-span-3 p-4">
+                      <AnimatePresence mode="wait">
+                        {activeView === 'desktop' ? (
+                          <motion.div key="desktop" initial={{opacity:0, scale:0.9}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.9}}>
+                            <div className="rounded-lg border-4 border-neutral-800 bg-neutral-900 p-1 shadow-2xl shadow-primary/10">
+                              <div className="p-1.5 bg-neutral-800 rounded-sm">
+                                <video src={demo.videoDesktop} autoPlay loop muted playsInline className="w-full h-full rounded-sm" />
+                              </div>
+                            </div>
+                          </motion.div>
+                        ) : (
+                          <motion.div key="mobile" initial={{opacity:0, scale:0.9}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.9}} className="flex justify-center">
+                            <div className="w-full max-w-[250px] rounded-[28px] border-8 border-neutral-800 bg-black p-1.5 shadow-2xl shadow-primary/10">
+                              <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[20px]">
+                                <video src={demo.videoMobile} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" />
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    <div className="lg:col-span-2 p-4 text-center lg:text-left">
+                       <p className="text-sm font-semibold text-primary">{demo.businessType}</p>
+                       <h3 className="mt-1 font-display text-2xl font-bold text-secondary">{demo.businessName}</h3>
+                       <div className="mt-6 flex items-center justify-center lg:justify-start gap-2">
+                         <button onClick={() => setActiveView('desktop')} className={`px-4 py-2 text-sm rounded-md font-semibold transition ${activeView === 'desktop' ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}>Vista Escritorio</button>
+                         <button onClick={() => setActiveView('mobile')} className={`px-4 py-2 text-sm rounded-md font-semibold transition ${activeView === 'mobile' ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}>Vista Móvil</button>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+           <div className="flex justify-center gap-4 mt-8">
+              <button onClick={scrollPrev} aria-label="Demo anterior" className="p-2 rounded-full bg-white/10 hover:bg-primary hover:text-background transition"><HiArrowLeft /></button>
+              <button onClick={scrollNext} aria-label="Siguiente demo" className="p-2 rounded-full bg-white/10 hover:bg-primary hover:text-background transition"><HiArrowRight /></button>
+          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ delay: 0.5 }}
+          >
+            <p className="mt-8 text-center text-sm text-foreground/60 italic max-w-3xl mx-auto">
+              Nota: Los logos y videos utilizados en estas demos son puramente ilustrativos. En tu proyecto final, trabajaremos con los materiales de tu marca o crearemos recursos de alta calidad a tu medida.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // --- Componente ServicesSection ---
 const ServiceCard = ({ title, description }: { title: string; description: string }) => (
     <div className="block rounded-xl border border-white/10 p-8 shadow-xl transition hover:border-primary/20 hover:shadow-primary/10 bg-white/5">
@@ -135,7 +222,6 @@ const ServicesSection = () => (
 // --- Componente FeaturedProjectsSection ---
 const FeaturedProjectsSection = () => {
     const featuredProjects = projects.filter(p => p.slug === 'opita-go' || p.slug === 'ivon');
-
     return (
         <section className="py-16 sm:py-24 bg-white/5">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -167,6 +253,7 @@ export default function HomePage() {
   return (
     <main>
       <HeroSection />
+      <FeaturedDemos />
       <ServicesSection />
       <FeaturedProjectsSection />
     </main>
