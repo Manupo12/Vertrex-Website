@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 export function WhatsAppButton() {
-  const phoneNumber = '573001234567';
+  const phoneNumber = '573202070445';
   const message = 'Hola, estoy interesado en los servicios de Vertrex.';
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
