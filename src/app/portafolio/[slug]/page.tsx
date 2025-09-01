@@ -12,7 +12,7 @@ function getProject(slug: string) {
 }
 
 export async function generateMetadata(
-  props: unknown // 
+  props: unknown  
 ): Promise<Metadata> {
   const { params } = props as { params: PageParams };
 

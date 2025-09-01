@@ -35,7 +35,6 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-4">
-            {/* 2. REEMPLAZAMOS EL TEXTO POR EL LOGO Y TEXTO COMBINADOS */}
             <Link href="/" className="inline-block" aria-label="Inicio">
               <div className="flex items-center gap-x-3">
                 <Image

@@ -1,17 +1,17 @@
 'use client'
 
 import React, { useState, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Variants } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { TypeAnimation } from 'react-type-animation'
-import { HiOutlineDesktopComputer, HiOutlineDeviceMobile, HiOutlineSparkles } from 'react-icons/hi'
-import { HiOutlineChevronDown, HiArrowLeft, HiArrowRight } from 'react-icons/hi2'
+import { HiOutlineChevronDown, HiArrowLeft, HiArrowRight, HiOutlineDevicePhoneMobile, HiOutlineSparkles } from 'react-icons/hi2'
+import { HiOutlineDesktopComputer } from 'react-icons/hi'
 import { FaReact, FaNodeJs } from 'react-icons/fa'
 import { SiNextdotjs, SiTypescript, SiTailwindcss } from 'react-icons/si'
 import { projects } from '@/lib/projects-data'
-import { demos } from '@/lib/demos-data'
+import { demos, Demo } from '@/lib/demos-data'
 import { AppProjectCard, WebProjectCard } from '@/components/ProjectCards'
 
 // --- Componente HeroSection ---
@@ -20,7 +20,7 @@ const HeroSection = () => {
 
   const services = [
     { text: 'tu página web', icon: <HiOutlineDesktopComputer className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
-    { text: 'tu app nativa', icon: <HiOutlineDeviceMobile className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
+    { text: 'tu app nativa', icon: <HiOutlineDevicePhoneMobile className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
     { text: 'tu automatización con IA', icon: <HiOutlineSparkles className="w-10 h-10 lg:w-16 lg:h-16 text-primary" /> },
   ];
 
@@ -110,11 +110,81 @@ const HeroSection = () => {
   );
 };
 
-// --- Componente: FeaturedDemos ---
+// --- Componente: FeaturedDemos (VERSIÓN CORREGIDA Y FUNCIONAL) ---
+const DemoSlide = ({ demo }: { demo: Demo }) => {
+  const [activeView, setActiveView] = useState<'desktop' | 'mobile'>('desktop');
+  const [activeVariant, setActiveVariant] = useState(demo.variants[0]);
+
+  const viewVariants: Variants = {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: "easeOut" } },
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2, ease: "easeIn" } },
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center p-6 bg-white/5 rounded-2xl border border-white/10">
+      <div className="lg:col-span-3 flex items-center justify-center min-h-[420px]">
+        <AnimatePresence mode="wait">
+          <motion.div 
+              key={`${activeVariant.label}-${activeView}`} 
+              variants={viewVariants} 
+              initial="initial" 
+              animate="animate" 
+              exit="exit"
+              className="w-full flex justify-center"
+          >
+            {activeView === 'desktop' ? (
+              <div className="w-full rounded-lg border-4 border-neutral-800 bg-neutral-900 p-1 shadow-2xl shadow-primary/10">
+                <div className="p-1.5 bg-neutral-800 rounded-sm">
+                  <video key={activeVariant.videoDesktop} src={activeVariant.videoDesktop} autoPlay loop muted playsInline className="w-full h-full rounded-sm" />
+                </div>
+              </div>
+            ) : (
+              <div className="w-full max-w-[250px] rounded-[28px] border-8 border-neutral-800 bg-black p-1.5 shadow-2xl shadow-primary/10">
+                <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[20px]">
+                  <video key={activeVariant.videoMobile} src={activeVariant.videoMobile} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" />
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <div className="lg:col-span-2 text-center lg:text-left">
+        <p className="text-sm font-semibold text-primary">{demo.businessType}</p>
+        <h3 className="mt-1 font-display text-3xl font-bold text-secondary">{demo.businessName}</h3>
+        <p className="mt-4 text-foreground/70 text-sm">
+          { demo.variants.length > 1 
+            ? `Esta demo tiene ${demo.variants.length} variantes que muestran su hero dinámico. ¡Selecciona una!` 
+            : 'Una demo visual creada para mostrar el potencial del proyecto.'
+          }
+        </p>
+        {demo.variants.length > 1 && (
+            <div className="mt-4 flex flex-wrap justify-center lg:justify-start gap-2">
+                {demo.variants.map(variant => (
+                    <button 
+                        key={variant.label} 
+                        onClick={() => setActiveVariant(variant)} 
+                        className={`px-3 py-1.5 text-xs rounded-md font-semibold transition ${activeVariant.label === variant.label ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}
+                    >
+                        {variant.label}
+                    </button>
+                ))}
+            </div>
+        )}
+        <div className="mt-6 flex items-center justify-center lg:justify-start gap-2 border-t border-white/10 pt-4">
+          <button onClick={() => setActiveView('desktop')} className={`px-4 py-2 text-sm rounded-md font-semibold transition ${activeView === 'desktop' ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}>Escritorio</button>
+          <button onClick={() => setActiveView('mobile')} className={`px-4 py-2 text-sm rounded-md font-semibold transition ${activeView === 'mobile' ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}>Móvil</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const FeaturedDemos = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [activeView, setActiveView] = useState<'desktop' | 'mobile'>('desktop');
-
+  const sortedDemos = [...demos].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const featuredDemos = sortedDemos.slice(0, 3);
+  
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
@@ -122,70 +192,41 @@ const FeaturedDemos = () => {
     <section className="py-16 sm:py-24 bg-background">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            className="mx-auto max-w-3xl text-center"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }} className="mx-auto max-w-3xl text-center"
         >
-          <h2 className="text-3xl font-bold sm:text-4xl font-display text-primary">Demos Hechas Realidad</h2>
+          <h2 className="text-3xl font-bold sm:text-4xl font-display text-primary">Demos Recientes</h2>
           <p className="mt-4 text-lg text-foreground/80">
             Esto es lo que podemos crear para ti. Cada demo es un punto de partida; el diseño final se ajusta 100% a tu visión y necesidades.
           </p>
         </motion.div>
-
         <div className="mt-16">
-          <div className="overflow-hidden rounded-lg" ref={emblaRef}>
+          <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {demos.map((demo, index) => (
-                <div key={index} className="relative flex-[0_0_100%] min-w-0 pl-4">
-                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center p-1 bg-white/5 rounded-2xl border border-white/10">
-                    <div className="lg:col-span-3 p-4">
-                      <AnimatePresence mode="wait">
-                        {activeView === 'desktop' ? (
-                          <motion.div key="desktop" initial={{opacity:0, scale:0.9}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.9}}>
-                            <div className="rounded-lg border-4 border-neutral-800 bg-neutral-900 p-1 shadow-2xl shadow-primary/10">
-                              <div className="p-1.5 bg-neutral-800 rounded-sm">
-                                <video src={demo.videoDesktop} autoPlay loop muted playsInline className="w-full h-full rounded-sm" />
-                              </div>
-                            </div>
-                          </motion.div>
-                        ) : (
-                          <motion.div key="mobile" initial={{opacity:0, scale:0.9}} animate={{opacity:1, scale:1}} exit={{opacity:0, scale:0.9}} className="flex justify-center">
-                            <div className="w-full max-w-[250px] rounded-[28px] border-8 border-neutral-800 bg-black p-1.5 shadow-2xl shadow-primary/10">
-                              <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[20px]">
-                                <video src={demo.videoMobile} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" />
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                    <div className="lg:col-span-2 p-4 text-center lg:text-left">
-                       <p className="text-sm font-semibold text-primary">{demo.businessType}</p>
-                       <h3 className="mt-1 font-display text-2xl font-bold text-secondary">{demo.businessName}</h3>
-                       <div className="mt-6 flex items-center justify-center lg:justify-start gap-2">
-                         <button onClick={() => setActiveView('desktop')} className={`px-4 py-2 text-sm rounded-md font-semibold transition ${activeView === 'desktop' ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}>Vista Escritorio</button>
-                         <button onClick={() => setActiveView('mobile')} className={`px-4 py-2 text-sm rounded-md font-semibold transition ${activeView === 'mobile' ? 'bg-primary text-background' : 'bg-white/10 hover:bg-white/20'}`}>Vista Móvil</button>
-                       </div>
-                    </div>
-                  </div>
+              {featuredDemos.map((demo, index) => (
+                <div key={index} className="relative flex-[0_0_100%] min-w-0 md:pl-4">
+                  <DemoSlide demo={demo} />
                 </div>
               ))}
             </div>
           </div>
            <div className="flex justify-center gap-4 mt-8">
-              <button onClick={scrollPrev} aria-label="Demo anterior" className="p-2 rounded-full bg-white/10 hover:bg-primary hover:text-background transition"><HiArrowLeft /></button>
-              <button onClick={scrollNext} aria-label="Siguiente demo" className="p-2 rounded-full bg-white/10 hover:bg-primary hover:text-background transition"><HiArrowRight /></button>
+              <button onClick={scrollPrev} aria-label="Demo anterior" className="p-3 rounded-full bg-white/10 hover:bg-primary hover:text-background transition-all"><HiArrowLeft className="h-5 w-5"/></button>
+              <button onClick={scrollNext} aria-label="Siguiente demo" className="p-3 rounded-full bg-white/10 hover:bg-primary hover:text-background transition-all"><HiArrowRight className="h-5 w-5"/></button>
           </div>
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ delay: 0.5 }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.5 }} transition={{ delay: 0.5 }}
+            className="text-center"
           >
-            <p className="mt-8 text-center text-sm text-foreground/60 italic max-w-3xl mx-auto">
-              Nota: Los logos y videos utilizados en estas demos son puramente ilustrativos. En tu proyecto final, trabajaremos con los materiales de tu marca o crearemos recursos de alta calidad a tu medida.
+            <p className="mt-8 text-sm text-foreground/60 italic max-w-3xl mx-auto">
+              Nota: Los logos y videos utilizados en estas demos son puramente ilustrativos. En tu proyecto final, trabajaremos con los materiales de tu marca.
             </p>
+             <div className="mt-8">
+                <Link href="/demos" className="text-sm font-semibold leading-6 text-primary/80 transition-colors hover:text-primary">
+                    Ver todas las demos <span aria-hidden="true">→</span>
+                </Link>
+            </div>
           </motion.div>
         </div>
       </div>

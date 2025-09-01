@@ -4,7 +4,7 @@ import { useState, useMemo, ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaUser, FaEnvelope, FaBuilding, FaCheckCircle, FaLink } from 'react-icons/fa'
 
-// --- Componentes de UI Refinados ---
+// --- Componentes de UI ---
 
 const ProgressBar = ({ current, total }: { current: number; total: number }) => (
   <div className="w-full bg-white/10 rounded-full h-2.5 mb-12">
