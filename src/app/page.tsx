@@ -110,7 +110,7 @@ const HeroSection = () => {
   );
 };
 
-// --- Componente: FeaturedDemos (VERSIÓN CORREGIDA Y FUNCIONAL) ---
+// --- Componente: FeaturedDemos  ---
 const DemoSlide = ({ demo }: { demo: Demo }) => {
   const [activeView, setActiveView] = useState<'desktop' | 'mobile'>('desktop');
   const [activeVariant, setActiveVariant] = useState(demo.variants[0]);

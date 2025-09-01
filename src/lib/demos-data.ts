@@ -1,6 +1,5 @@
-// 1. Definimos la forma de una 'variante' de video
 export interface DemoVariant {
-  label: string; // Ej: 'Lunes', 'Principal', 'Función X'
+  label: string; 
   videoMobile: string;
   videoDesktop: string;
 }
@@ -9,7 +8,6 @@ export interface Demo {
   businessName: string;
   businessType: string;
   date: string;
-  // 2. Reemplazamos los campos de video por un array de variantes
   variants: DemoVariant[];
 }
 
@@ -17,7 +15,7 @@ export const demos: Demo[] = [
   {
     businessName: 'Organica 420',
     businessType: 'Gastro Bar Weed-Friendly',
-    date: '2025-09-01', // La más nueva
+    date: '2025-09-01', 
     variants: [
       { label: 'Principal', videoMobile: '/videos/principalorganicamv.mp4', videoDesktop: '/videos/principalorganicapc.mp4' },
       { label: 'Lunes', videoMobile: '/videos/lunesorganicamv.mp4', videoDesktop: '/videos/lunesorganicapc.mp4' },

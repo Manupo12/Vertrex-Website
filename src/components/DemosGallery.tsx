@@ -1,13 +1,14 @@
 'use client'
 
-import { demos } from '@/lib/demos-data'
-import { motion } from 'framer-motion'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { demos, Demo } from '@/lib/demos-data'
 import { ScrollAnimationWrapper } from '@/components/ScrollAnimationWrapper'
 
-// Componente para cada tarjeta de demo en la galería
-const DemoCard = ({ demo }: { demo: typeof demos[0] }) => {
+// Componente para cada tarjeta de demo en la galería (ACTUALIZADO)
+const DemoCard = ({ demo }: { demo: Demo }) => {
   const [activeView, setActiveView] = useState<'desktop' | 'mobile'>('desktop');
+  // Obtenemos la primera variante (la principal) para mostrarla en la galería
+  const mainVariant = demo.variants[0];
 
   return (
     <div className="flex flex-col rounded-2xl border border-white/10 bg-white/5 overflow-hidden h-full transition-all duration-300 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/10">
@@ -15,14 +16,16 @@ const DemoCard = ({ demo }: { demo: typeof demos[0] }) => {
         {activeView === 'desktop' ? (
           <div className="rounded-md border-2 border-neutral-800 bg-neutral-900 p-1">
             <div className="p-1 bg-neutral-800 rounded-sm">
-              <video src={demo.videoDesktop} autoPlay loop muted playsInline className="w-full h-full rounded-sm aspect-video" />
+              {/* CORRECCIÓN AQUÍ */}
+              <video src={mainVariant.videoDesktop} autoPlay loop muted playsInline className="w-full h-full rounded-sm aspect-video" />
             </div>
           </div>
         ) : (
           <div className="flex justify-center p-4">
             <div className="w-full max-w-[200px] rounded-[24px] border-4 border-neutral-800 bg-black p-1">
               <div className="relative aspect-[9/19] w-full overflow-hidden rounded-[18px]">
-                <video src={demo.videoMobile} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" />
+                {/* CORRECCIÓN AQUÍ */}
+                <video src={mainVariant.videoMobile} autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -42,6 +45,7 @@ const DemoCard = ({ demo }: { demo: typeof demos[0] }) => {
   )
 }
 
+// Componente principal de la galería (ACTUALIZADO)
 export default function DemosGallery() {
   // Ordenamos las demos por fecha, de la más nueva a la más vieja
   const sortedDemos = [...demos].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
