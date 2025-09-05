@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { FaCheckCircle } from 'react-icons/fa'
 
 // --- Componente Reutilizable para los Campos del Formulario ---
+// Interfaz que describe las props que acepta cada campo del formulario.
+// Se usa para entradas, textarea o selects dependiendo de las flags.
 interface FormFieldProps {
   id: string;
   label: string;
@@ -19,6 +21,8 @@ interface FormFieldProps {
   className?: string;
 }
 
+// Componente primario para renderizar un campo (input, textarea o select)
+// Mantiene la animación de aparición con Framer Motion y aplica clases de estilo.
 const FormField: React.FC<FormFieldProps> = ({ id, label, type = 'text', name, value, onChange, required = false, isTextArea = false, isSelect = false, options = [], className = '' }) => (
   <motion.div
     variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
@@ -29,38 +33,51 @@ const FormField: React.FC<FormFieldProps> = ({ id, label, type = 'text', name, v
     </label>
     <div className="mt-2.5">
       {isTextArea ? (
+        // Textarea para mensajes largos
         <textarea id={id} name={name} value={value} onChange={onChange} required={required} rows={4} className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-foreground shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition" />
       ) : isSelect ? (
+        // Select para elegir un servicio
         <select id={id} name={name} value={value} onChange={onChange} required={required} className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-foreground shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition">
           <option value="" disabled className="bg-background text-foreground/50">Selecciona un servicio...</option>
           {options.map(option => <option key={option} value={option} className="bg-background text-foreground">{option}</option>)}
         </select>
       ) : (
+        // Input básico (nombre, email, etc.)
         <input type={type} id={id} name={name} value={value} onChange={onChange} required={required} className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-foreground shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition" />
       )}
     </div>
   </motion.div>
 );
 
+// Componente que maneja el formulario de contacto completo.
+// - Mantiene estado local (formData) con los campos del formulario.
+// - Envía datos a Web3Forms usando la KEY en NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY.
+// - Muestra una vista de éxito al completarse y maneja estados de envío/errores.
 export default function ContactForm() {
+  // Estado con los valores del formulario
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     service: '',
     message: '',
   });
+  // Estado para trackear el estado del envío: idle | submitting | success | error
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
+  // Handler genérico para inputs/selects/textarea. Actualiza formData por nombre.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handler que hace POST a la API de Web3Forms. No realiza validaciones extra aquí
+  // porque los campos ya están marcados como required en el HTML.
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
     
     const data = {
       ...formData,
+      // Se incluye la clave pública en env var para Web3Forms
       access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY,
       subject: `Nuevo Mensaje de ${formData.name} - Interesado en ${formData.service}`,
     };
@@ -73,17 +90,21 @@ export default function ContactForm() {
       });
       const result = await res.json();
       if (result.success) {
+        // Envío OK: mostramos pantalla de éxito
         setStatus('success');
       } else {
+        // Respuesta no exitosa desde el servicio
         console.error('Error Response:', result);
         setStatus('error');
       }
     } catch (error) {
+      // Error de red o excepción en fetch
       console.error('Submit Error:', error);
       setStatus('error');
     }
   };
 
+  // Vista que se muestra cuando el envío fue exitoso (status === 'success')
   if (status === 'success') {
     return (
       <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-32 pb-16 flex items-center justify-center text-center" style={{ minHeight: 'calc(100vh - 100px)'}}>
@@ -96,6 +117,7 @@ export default function ContactForm() {
     );
   }
 
+  // Vista del formulario (estado idle | error | submitting)
   return (
     <motion.div initial="hidden" animate="visible" variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } }} className="mx-auto max-w-7xl px-6 lg:px-8 pt-32 pb-24">
       <div className="mx-auto max-w-2xl text-center">
@@ -109,6 +131,7 @@ export default function ContactForm() {
 
       <motion.form onSubmit={handleSubmit} variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } } }} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          {/* Campos: nombre, email, servicio y mensaje */}
           <FormField id="name" label="Nombre Completo" name="name" value={formData.name} onChange={handleChange} required className="sm:col-span-1" />
           <FormField id="email" label="Email" type="email" name="email" value={formData.email} onChange={handleChange} required className="sm:col-span-1" />
           <FormField

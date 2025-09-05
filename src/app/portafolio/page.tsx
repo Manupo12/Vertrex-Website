@@ -1,12 +1,21 @@
 'use client'
 
+// Página de portafolio: lista proyectos internos y proyectos para clientes
+// Comentarios en español añadidos para facilitar la comprensión sin alterar la lógica.
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { projects } from '@/lib/projects-data'
 import { AppProjectCard, WebProjectCard } from '@/components/ProjectCards'
 
+// Componente: FilterButtons
+// Muestra botones para filtrar por categoría (p. ej. Todos, App, Web)
+// Props:
+// - categories: lista de categorías a mostrar
+// - activeFilter: categoría actualmente activa
+// - setActiveFilter: función para actualizar el filtro activo
 const FilterButtons = ({ categories, activeFilter, setActiveFilter }: { categories: string[], activeFilter: string, setActiveFilter: (filter: string) => void }) => {
+    // Si no hay más de una categoría, no mostramos botones (no tiene sentido filtrar)
     if (categories.length <= 1) {
         return null;
     }
@@ -30,14 +39,19 @@ const FilterButtons = ({ categories, activeFilter, setActiveFilter }: { categori
 };
 
 export default function PortafolioPage() {
+  // Estados locales para filtros (interno = proyectos de Vertrex, client = proyectos de clientes)
   const [internalFilter, setInternalFilter] = useState('Todos');
   const [clientFilter, setClientFilter] = useState('Todos');
 
+  // Categorías de filtro disponibles
   const filterCategories = ['Todos', 'App', 'Web'];
 
+  // Separar proyectos según el desarrollador: Vertrex S.C. o Cliente
+  // useMemo para evitar recalcular la lista en cada render
   const internalProjects = useMemo(() => projects.filter(p => p.developer === 'Vertrex S.C.'), []);
   const clientProjects = useMemo(() => projects.filter(p => p.developer === 'Cliente'), []);
 
+  // Aplicar filtros seleccionados (Todos / App / Web) a cada lista
   const filteredInternal = useMemo(() => internalProjects.filter(p => internalFilter === 'Todos' || p.type.toLowerCase() === internalFilter.toLowerCase()), [internalProjects, internalFilter]);
   const filteredClient = useMemo(() => clientProjects.filter(p => clientFilter === 'Todos' || p.type.toLowerCase() === clientFilter.toLowerCase()), [clientProjects, clientFilter]);
 
@@ -57,6 +71,7 @@ export default function PortafolioPage() {
         {/* === Columna 1: Proyectos Vertrex === */}
         <div className="flex flex-col">
           <h2 className="text-2xl font-semibold text-center text-foreground font-display mb-6">Proyectos Vertrex</h2>
+          {/* Botones para filtrar la columna interna */}
           <FilterButtons categories={filterCategories} activeFilter={internalFilter} setActiveFilter={setInternalFilter} />
           <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <AnimatePresence>
@@ -72,6 +87,7 @@ export default function PortafolioPage() {
         {/* === Columna 2: Proyectos para Clientes === */}
         <div className="flex flex-col border-t border-white/10 pt-16 lg:border-t-0 lg:pt-0">
           <h2 className="text-2xl font-semibold text-center text-foreground font-display mb-6">Proyectos para Clientes</h2>
+          {/* Botones para filtrar la columna de clientes; si no hay proyectos, no se muestran */}
           <FilterButtons categories={clientProjects.length > 0 ? filterCategories : []} activeFilter={clientFilter} setActiveFilter={setClientFilter} />
           <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 gap-8">
              <AnimatePresence>
@@ -82,6 +98,7 @@ export default function PortafolioPage() {
               ))}
             </AnimatePresence>
             
+            {/* Tarjeta de llamada a la acción para convertir una idea en proyecto */}
             <motion.div 
               layout 
               initial={{ opacity: 0, scale: 0.9 }} 

@@ -6,7 +6,9 @@ import { FaWhatsapp, FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa'
 import { IoMail } from 'react-icons/io5'
 import type { IconType } from 'react-icons'
 
-// 1. AÑADIMOS 'Demos' A LA NAVEGACIÓN
+// Datos de navegación que se muestran en el footer
+// - `solutions` y `company` contienen enlaces internos del sitio
+// Nota: se puede extender esta estructura si se añaden más secciones.
 const navigation = {
   solutions: [
     { name: 'Servicios', href: '/servicios' },
@@ -20,6 +22,10 @@ const navigation = {
   ],
 }
 
+// Enlaces a redes sociales y contacto. Cada objeto contiene:
+// - name: etiqueta accesible
+// - href: URL a la que apunta
+// - icon: componente IconType de react-icons (se renderiza dinámicamente)
 const socialLinks: { name: string; href: string; icon: IconType }[] = [
   { name: 'WhatsApp', href: 'https://wa.me/573202070445', icon: FaWhatsapp },
   { name: 'Instagram', href: 'https://www.instagram.com/vertrexsc?igsh=MTZxa3VtMTB2ajJzMQ==', icon: FaInstagram },
@@ -52,6 +58,7 @@ export function Footer() {
             <p className="text-sm leading-6 text-foreground/70">
               Soluciones digitales que te entienden. Creamos la tecnología que tu negocio en Neiva necesita para crecer, a un precio justo.
             </p>
+            {/* Enlaces a redes sociales: se renderizan desde `socialLinks` */}
             <div className="flex space-x-6 pt-2">
               {socialLinks.map((item) => {
                 const Icon = item.icon;
@@ -64,6 +71,7 @@ export function Footer() {
                     className="text-foreground/60 transition-colors hover:text-primary"
                   >
                     <span className="sr-only">{item.name}</span>
+                    {/* Icono dinámico (react-icons) */}
                     <Icon className="h-6 w-6" />
                   </a>
                 );

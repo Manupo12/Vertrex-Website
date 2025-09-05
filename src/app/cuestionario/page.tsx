@@ -1,13 +1,19 @@
 'use client'
 
+// Importaciones de React y utilidades
 import { useState, useMemo, ReactNode } from 'react'
+// Animaciones con Framer Motion
 import { motion, AnimatePresence } from 'framer-motion'
+// Iconos usados en los inputs y en la pantalla de éxito
 import { FaUser, FaEnvelope, FaBuilding, FaCheckCircle, FaLink } from 'react-icons/fa'
 
 // --- Componentes de UI ---
 
+// Barra de progreso que muestra el avance entre pasos
+// Props: current = paso actual, total = número total de pasos
 const ProgressBar = ({ current, total }: { current: number; total: number }) => (
   <div className="w-full bg-white/10 rounded-full h-2.5 mb-12">
+    {/* La barra interna anima su ancho según el porcentaje completado */}
     <motion.div
       className="bg-primary h-2.5 rounded-full"
       initial={{ width: '0%' }}
@@ -17,6 +23,8 @@ const ProgressBar = ({ current, total }: { current: number; total: number }) => 
   </div>
 );
 
+// Envoltura con animación para cada paso del formulario
+// Añade entrada/salida animada cuando cambian los pasos
 const StepWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
     initial={{ opacity: 0, x: 50 }}
@@ -28,51 +36,67 @@ const StepWrapper = ({ children }: { children: React.ReactNode }) => (
   </motion.div>
 );
 
+// Componente reutilizable para inputs con icono a la izquierda
+// Recibe una prop `icon` y todas las props válidas de un <input>
 const InputField = ({ icon, ...props }: { icon: ReactNode } & React.InputHTMLAttributes<HTMLInputElement>) => (
-    <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-            {icon}
-        </div>
-        <input {...props} className="block w-full rounded-md border-0 bg-white/5 py-3 pl-10 text-foreground ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary transition" />
+  <div className="relative">
+    {/* Icono visual, no interactivo */}
+    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+      {icon}
     </div>
+    {/* Input real; las props se propagan directamente */}
+    <input {...props} className="block w-full rounded-md border-0 bg-white/5 py-3 pl-10 text-foreground ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-primary transition" />
+  </div>
 );
 
 
 // --- Componente Principal del Cuestionario ---
 
+// Página principal del cuestionario (componente por defecto)
 export default function QuestionnairePage() {
+  // Estado del paso actual (1-4)
   const [currentStep, setCurrentStep] = useState(1);
+  // Estado con todos los campos del formulario
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     businessName: '',
     projectType: '',
     ideaDescription: '',
-    styleAdjectives: [] as string[],
-    otherStyle: '',
+    styleAdjectives: [] as string[], // adjetivos seleccionados
+    otherStyle: '', // texto cuando el usuario elige 'Otro'
     references: '',
     logo: null as File | null,
   });
+  // Estado del envío: idle | submitting | success | error
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
+  // Manejador genérico para inputs, textareas y selects
+  // Actualiza la propiedad correspondiente en formData
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // Manejador para el input de archivo (logo)
+  // Guarda el primer archivo seleccionado en formData.logo
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFormData(prev => ({ ...prev, logo: e.target.files![0] }));
     }
   };
   
+  // Alterna la selección de un adjetivo en styleAdjectives
+  // Limita la selección a 3 elementos
   const handleAdjectiveToggle = (adjective: string) => {
     setFormData(prev => {
       const isSelected = prev.styleAdjectives.includes(adjective);
       let newAdjectives;
 
       if (isSelected) {
+        // Si ya estaba seleccionado, lo removemos
         newAdjectives = prev.styleAdjectives.filter(a => a !== adjective);
       } else {
+        // Si no está seleccionado, lo añadimos sólo si hay menos de 3
         if (prev.styleAdjectives.length < 3) {
           newAdjectives = [...prev.styleAdjectives, adjective];
         } else {
@@ -83,6 +107,10 @@ export default function QuestionnairePage() {
     });
   };
 
+  // Validación por paso usando useMemo para evitar recalcular innecesariamente
+  // Paso 1: nombre, email y nombre del negocio son obligatorios
+  // Paso 2: tipo de proyecto e idea son obligatorios
+  // Paso 3: al menos un adjetivo; si se selecciona 'Otro' se requiere otherStyle
   const isStepValid = useMemo(() => {
     switch (currentStep) {
       case 1:
@@ -98,27 +126,34 @@ export default function QuestionnairePage() {
     }
   }, [formData, currentStep]);
 
+  // Avanza o retrocede entre pasos (limita entre 1 y 4)
   const nextStep = () => setCurrentStep(prev => prev < 4 ? prev + 1 : prev);
   const prevStep = () => setCurrentStep(prev => prev > 1 ? prev - 1 : prev);
 
+  // Envío final del formulario (sólo en el paso 4)
+  // Construye un FormData y lo envía a la API de web3forms
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (currentStep !== 4) return;
     setStatus('submitting');
     
     const submissionData = new FormData();
+    // Clave pública configurada en entorno
     submissionData.append('access_key', process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY!);
     submissionData.append('subject', `Nuevo Cuestionario de Proyecto: ${formData.businessName || formData.name}`);
 
+    // Preparar la lista de adjetivos finales (si incluye 'Otro', añadimos el texto de otherStyle)
     const finalAdjectives = formData.styleAdjectives.filter(adj => adj !== 'Otro');
     if (formData.styleAdjectives.includes('Otro') && formData.otherStyle.trim() !== '') {
         finalAdjectives.push(formData.otherStyle.trim());
     }
     submissionData.append('Estilos Seleccionados', finalAdjectives.join(', '));
 
+    // Añadimos todas las demás entradas del formulario al FormData (omitimos styleAdjectives y otherStyle ya procesados)
     Object.entries(formData).forEach(([key, value]) => {
         if (key !== 'styleAdjectives' && key !== 'otherStyle') {
              if (key === 'logo' && value) {
+                // Adjuntar archivo cuando exista
                 submissionData.append(key, value as File);
             } else if (value && typeof value === 'string' && value.trim() !== '') {
                 submissionData.append(key, value);
@@ -131,8 +166,9 @@ export default function QuestionnairePage() {
       const result = await res.json();
       if (result.success) setStatus('success'); else setStatus('error');
     } catch (error) {
-  console.error('Error al enviar el cuestionario:', error);
-  setStatus('error'); 
+      // En caso de error de red u otra excepción, marcar estado de error
+      console.error('Error al enviar el cuestionario:', error);
+      setStatus('error'); 
     }
   };
 

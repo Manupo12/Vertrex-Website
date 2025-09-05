@@ -1,5 +1,8 @@
-'use client'
+ 'use client'
 
+// Este componente es la vista cliente de detalle de un proyecto.
+// Contiene subcomponentes pequeños para mantener la UI organizada
+// (ProjectHeader, MediaGallery) y un CTA que adapta su contenido según el proyecto.
 import { Project } from '@/lib/projects-data';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +10,8 @@ import { FaGooglePlay, FaExternalLinkAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 // --- Sub-componente para el encabezado  ---
+// Muestra el logo (si aplica), la categoría, el título y desarrollador del proyecto.
+// Diseñado para usarse tanto en la columna principal como en la barra lateral sticky.
 const ProjectHeader = ({ project }: { project: Project }) => (
     <header className="flex items-center gap-x-6">
         {project.type === 'app' && project.appLogo && (
@@ -23,6 +28,10 @@ const ProjectHeader = ({ project }: { project: Project }) => (
 );
 
 // --- Sub-componente para la Galería de Funcionalidades ---
+// Recorre `project.galleryImages` y muestra pares (media + texto).
+// - Si el proyecto es tipo 'app' renderiza las imágenes dentro de un mock de dispositivo móvil.
+// - Si es web, usa una caja con `aspect-video`.
+// Se aplican animaciones en la entrada con Framer Motion y alternancia de orden para variedad visual.
 const MediaGallery = ({ project }: { project: Project }) => (
     <section className="mt-16">
         <h2 className="font-display text-3xl font-bold text-primary mb-8">Funcionalidades Clave</h2>
@@ -67,6 +76,7 @@ const MediaGallery = ({ project }: { project: Project }) => (
 
 // --- Componente de Cliente Principal ---
 export default function ProjectDetailClient({ project }: { project: Project }) {
+  // Determina el texto y icono del CTA según el proyecto
   const getCtaContent = () => {
     if (project.category.includes('Android')) { return { text: 'Disponible en Play Store', icon: <FaGooglePlay size={20} /> }; }
     if (project.type === 'web') { return { text: 'Visitar Sitio Web', icon: <FaExternalLinkAlt className="h-4 w-4" /> }; }
@@ -74,6 +84,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   };
   const cta = getCtaContent();
 
+  // Botón CTA reutilizable. Abre `project.liveUrl` en una nueva pestaña.
   const CtaButton = () => (
     <Link href={project.liveUrl!} target="_blank" rel="noopener noreferrer" className="mt-8 flex w-full items-center justify-center gap-x-3 rounded-lg bg-primary py-3 px-4 text-md font-bold text-background shadow-lg transition-all duration-300 hover:bg-primary/80 hover:shadow-[0_0_20px_theme(colors.primary.DEFAULT)]">
         {cta.icon}
@@ -81,12 +92,16 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
     </Link>
   );
 
+  // Estructura principal de la página de detalle:
+  // - Columna principal (lg:col-span-2): reto, solución, resultado y galería.
+  // - Aside (lg:col-span-1): resumen sticky con CTA y tecnologías.
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-28 pb-16 sm:pt-32">
         <div className="lg:grid lg:grid-cols-3 lg:gap-x-16">
             
             {/* --- Columna Principal de Contenido (Izquierda en PC) --- */}
             <main className="lg:col-span-2">
+                {/* En mobile mostramos el header antes del contenido */}
                 <div className="lg:hidden mb-12"> <ProjectHeader project={project} /> </div>
 
                 <div className="space-y-12 text-base lg:text-lg text-foreground/80 leading-relaxed">

@@ -6,7 +6,16 @@ import Image from 'next/image'
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import { HiXMark } from 'react-icons/hi2'
 
+// Header.tsx
+// Comentarios en español: este archivo contiene el header del sitio con menú
+// responsive. Incluye un botón de menú animado (MenuButton) y el panel móvil
+// que aparece con AnimatePresence. No se modifica la lógica, solo se documenta.
+
 // --- Componente para el Botón de Menú Animado ---
+// Este botón muestra una animación entre el icono "hamburger" y la "X".
+// - `isOpen`: controla la variante de la animación.
+// - `onClick`: alterna el estado del menú móvil.
+// Se utilizan `motion.path` para interpolar los atributos SVG (d) y opacidad.
 const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
   return (
     <button
@@ -17,6 +26,7 @@ const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void 
     >
       <svg width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" className="stroke-current">
         <motion.path
+          // Primera línea del icono: cambia su forma al abrir/cerrar
           variants={{
             closed: { d: "M 2 6.5 L 22 6.5" },
             open: { d: "M 3 18 L 18 3" },
@@ -24,11 +34,13 @@ const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void 
           initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
         />
         <motion.path
+          // Línea central: se oculta cuando el menú está abierto
           d="M 2 12.5 L 22 12.5"
           variants={{ closed: { opacity: 1 }, open: { opacity: 0 } }}
           initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
         />
         <motion.path
+          // Tercera línea: similar a la primera, rota para formar la X
           variants={{
             closed: { d: "M 2 18.5 L 22 18.5" },
             open: { d: "M 3 3 L 18 18" },
@@ -42,8 +54,11 @@ const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void 
 
 // --- Componente Principal del Header ---
 export function Header() {
+  // Estado que controla si el panel móvil está abierto
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  // useEffect para bloquear el scroll del body cuando el menú móvil está abierto.
+  // Esto evita que la página detrás del panel se desplace mientras el menú está activo.
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -53,6 +68,7 @@ export function Header() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [mobileMenuOpen]);
 
+  // Links que se muestran en la navegación principal (desktop y mobile)
   const links = [
     { href: '/servicios', label: 'Servicios' },
     { href: '/demos', label: 'Demos' },
@@ -61,12 +77,14 @@ export function Header() {
     { href: '/contacto', label: 'Contacto' },
   ]
 
+  // Variantes de Framer Motion para el panel del menú móvil
   const menuPanelVariants: Variants = {
     hidden: { x: "100%", opacity: 0 },
     visible: { x: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 30 } },
     exit: { x: "100%", opacity: 0, transition: { duration: 0.3, ease: 'easeInOut' } },
   }
   
+  // Variantes para el contenedor y los items (staggered animation)
   const menuContainerVariants: Variants = {
     visible: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
     hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } }
@@ -77,6 +95,7 @@ export function Header() {
     visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } },
   };
 
+  // Estructura del header: logo a la izquierda, links centrales (desktop) y CTA a la derecha
   return (
     <header className="fixed top-0 left-0 w-full z-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 border-b border-primary/10 backdrop-blur-md bg-background/80">
@@ -98,24 +117,29 @@ export function Header() {
           </Link>
         </div>
 
+        {/* Links visibles en pantallas grandes */}
         <div className="hidden lg:flex lg:gap-x-12">
           {links.map((link) => ( <Link key={link.href} href={link.href} className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"> {link.label} </Link> ))}
         </div>
 
+        {/* CTA a la derecha en desktop */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link href="/contacto" className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-background shadow-sm hover:bg-primary/80">
             Cotizar Proyecto
           </Link>
         </div>
         
+        {/* Botón de menú para mobile */}
         <div className="flex lg:hidden">
           <MenuButton isOpen={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
         </div>
       </nav>
 
+      {/* Panel del menú móvil con AnimatePresence para la entrada/salida */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
+            {/* Overlay semi-transparente que cierra el menú al hacer click */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

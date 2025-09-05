@@ -1,10 +1,12 @@
 'use client'
 
+// Página: Sobre Nosotros
+// Contiene la historia, misión y valores de la empresa. Los comentarios añadidos
+// explican la estructura y el propósito de cada sección sin modificar la lógica.
 import { ScrollAnimationWrapper } from "@/components/ScrollAnimationWrapper";
 import Link from "next/link";
 import Image from "next/image"; 
 import { values } from "@/lib/about-data";
-
 
 
 
@@ -14,11 +16,13 @@ export default function SobreNosotrosPage() {
             {/* --- HERO SECTION --- */}
             <main className="isolate">
                 <div className="relative pt-14">
+                    {/* Elemento decorativo difuso en el fondo (solo visual) */}
                     <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
                         <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary to-secondary opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }} />
                     </div>
                     <div className="pt-28 pb-16 sm:pt-32 sm:pb-24">
                         <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                            {/* Encabezado principal con título y descripción */}
                             <ScrollAnimationWrapper className="mx-auto max-w-3xl text-center">
                                 <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-6xl font-display">Tecnología con Alma Humana</h1>
                                 <p className="mt-6 text-lg leading-8 text-foreground/80">
@@ -43,6 +47,7 @@ export default function SobreNosotrosPage() {
                         </div>
                     </div>
                     
+                    {/* Imagen relacionada con la misión (relleno responsivo) */}
                     <div className="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-lg shadow-primary/10">
                         <Image
                             src="/images/sobre-nosotros-mision.webp" 
@@ -64,6 +69,7 @@ export default function SobreNosotrosPage() {
                     </p>
                 </ScrollAnimationWrapper>
                 <dl className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-base leading-7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+                    {/* Iterar y mostrar cada valor/ principio definido en /lib/about-data */}
                     {values.map((value) => (
                         <ScrollAnimationWrapper key={value.name} className="relative pl-9" delay={0.2}>
                             <dt className="inline font-semibold text-foreground">
@@ -78,6 +84,7 @@ export default function SobreNosotrosPage() {
                 </dl>
             </div>
 
+            {/* Sección final: llamada a la acción para contactar */}
             <div className="text-center pt-24 pb-16 sm:py-32">
                  <ScrollAnimationWrapper>
                     <h2 className="font-display text-3xl sm:text-4xl text-foreground">Construyamos algo grande, juntos.</h2>
