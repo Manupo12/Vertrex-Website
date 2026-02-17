@@ -286,7 +286,7 @@ export default function QuestionnairePage() {
                         })()}</dd></div>
                         <div className="flex justify-between pt-2"><dt className="font-semibold text-primary pr-2">Logo:</dt><dd className="text-right truncate">{formData.logo?.name || 'No adjuntado'}</dd></div>
                      </dl>
-                     {status === 'error' && <p className="mt-4 text-center text-red-400">Hubo un error. Por favor, vuelve atrás y revisa tus datos.</p>}
+                     {status === 'error' && <p className="mt-4 text-center text-primary">Hubo un error. Por favor, vuelve atrás y revisa tus datos.</p>}
                 </StepWrapper>
             )}
         </AnimatePresence>

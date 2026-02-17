@@ -48,7 +48,7 @@ export default function RootLayout({
       {/* Aplicamos las variables de fuente y clases globales en el body */}
       <body className={`${inter.variable} ${chakraPetch.variable} h-full flex flex-col bg-background font-sans text-foreground`}>
         <Header />
-        <main className="flex-grow">{children}</main>
+        <main className="flex-grow pb-12">{children}</main>
         <Footer />
         {/* Botón flotante de WhatsApp (componente reutilizable) */}
         <WhatsAppButton /> 

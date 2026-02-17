@@ -1,55 +1,67 @@
-
 @import "tailwindcss";
 
-:root {
-  --font-chakra-petch: 'Chakra Petch', sans-serif;
-  --font-inter: 'Inter', sans-serif;
-  
-  --color-background: #0A0A0A; /* Negro profundo para un look serio y moderno. */
-  --color-text-main: #E5E5E5;  /* Blanco suave para una legibilidad óptima. */
-  --color-primary: #00FF7F;     /* Verde Primavera: tecnológico, vibrante pero más sofisticado. */
-  --color-secondary: #FFFFFF;    /* Blanco puro: para acentos de alto contraste y limpieza. */
-}
-
+/* En Tailwind v4, usamos @theme para definir todo.
+  Las variables de fuentes vienen de Next.js (layout), 
+  aquí las conectamos a las utilidades de Tailwind.
+*/
 @theme {
-  --color-background: var(--color-background);
-  --color-foreground: var(--color-text-main);
+  /* --- COLORES --- */
+  /* Definimos los valores directamente aquí. */
+  --color-background: #0A0A0A; /* Negro profundo */
+  --color-foreground: #E5E5E5; /* Blanco suave (texto principal) */
   
-  --color-primary: var(--color-primary);
-  --color-secondary: var(--color-secondary);
-  
+  --color-primary: #4fff7b;    /* Vertrex Green (requested) */
+  --color-secondary: #FFFFFF;  /* Blanco puro (Acentos) */
+
+  /* --- FUENTES --- */
+  /* Conectamos las variables que inyecta Next.js */
   --font-sans: var(--font-inter);
   --font-display: var(--font-chakra-petch);
-}
 
-@layer utilities {
+  /* --- ANIMACIONES --- */
+  /* Definimos la animación directamente en el tema */
+  --animate-subtle-pulse: subtle-pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
   @keyframes subtle-pulse {
     0%, 100% { opacity: 0.2; }
     50% { opacity: 0.4; }
   }
+}
 
+/* Utilidades personalizadas (Scrollbar, etc.)
+  Usamos las variables nativas (--color-primary) en lugar de theme() cuando es posible
+  para aprovechar el rendimiento de CSS nativo.
+*/
+@layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     height: 8px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background-color: theme('colors.white / 0.1');
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: theme('colors.primary / 0.6');
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: theme('colors.primary / 1');
+    width: 8px; /* Agregado ancho para scroll vertical */
   }
   
-  .animate-subtle-pulse {
-    animation: subtle-pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .custom-scrollbar::-webkit-scrollbar-track {
+    /* Usamos color-mix nativo de CSS moderno (soportado por v4) */
+    background-color: color-mix(in srgb, var(--color-secondary), transparent 90%);
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--color-primary), transparent 40%);
+    border-radius: 10px;
+    border: 2px solid var(--color-background); /* Un borde pequeño hace que se vea más pro */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-primary);
   }
 }
 
+/* Estilos base del body 
+*/
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  /* Suavizado de fuentes para que el texto oscuro sobre fondo claro (o viceversa) se vea nítido */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

@@ -34,20 +34,4 @@ export const demos: Demo[] = [
         { label: 'Principal', videoMobile: '/videos/urbangymmv.mp4', videoDesktop: '/videos/urbangympc.mp4' }
     ]
   },
-  {
-    businessName: 'Principerfum',
-    businessType: 'Tienda de Perfumes',
-    date: '2025-07-29', 
-    variants: [
-        { label: 'Principal', videoMobile: '/videos/principerfummv.mp4', videoDesktop: '/videos/principerfumpc.mp4' }
-    ]
-  },
-  {
-    businessName: 'Ser Deseable',
-    businessType: 'Influencer de Fitness',
-    date: '2025-06-23',
-    variants: [
-        { label: 'Principal', videoMobile: '/videos/serdeseablemv.mp4', videoDesktop: '/videos/serdeseablepc.mp4' }
-    ]
-  },
 ];

@@ -3,200 +3,215 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
-import { HiXMark } from 'react-icons/hi2'
+import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
+import { HiXMark, HiBars3BottomRight } from 'react-icons/hi2'
+import { FaWhatsapp } from 'react-icons/fa'
 
-// Header.tsx
-// Comentarios en español: este archivo contiene el header del sitio con menú
-// responsive. Incluye un botón de menú animado (MenuButton) y el panel móvil
-// que aparece con AnimatePresence. No se modifica la lógica, solo se documenta.
+// --- DATOS DE NAVEGACIÓN ---
+const links = [
+  { href: '/servicios', label: 'Servicios' },
+  { href: '/demos', label: 'Laboratorio' }, // Cambié "Demos" por "Laboratorio" para sonar más pro
+  { href: '/portafolio', label: 'Portafolio' },
+  { href: '/sobre-nosotros', label: 'Manifiesto' }, // "Manifiesto" suena más fuerte que "Sobre Nosotros"
+]
 
-// --- Componente para el Botón de Menú Animado ---
-// Este botón muestra una animación entre el icono "hamburger" y la "X".
-// - `isOpen`: controla la variante de la animación.
-// - `onClick`: alterna el estado del menú móvil.
-// Se utilizan `motion.path` para interpolar los atributos SVG (d) y opacidad.
-const MenuButton = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
-  return (
-    <button
-      type="button"
-      className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-foreground z-50"
-      onClick={onClick}
-      aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" className="stroke-current">
-        <motion.path
-          // Primera línea del icono: cambia su forma al abrir/cerrar
-          variants={{
-            closed: { d: "M 2 6.5 L 22 6.5" },
-            open: { d: "M 3 18 L 18 3" },
-          }}
-          initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
-        />
-        <motion.path
-          // Línea central: se oculta cuando el menú está abierto
-          d="M 2 12.5 L 22 12.5"
-          variants={{ closed: { opacity: 1 }, open: { opacity: 0 } }}
-          initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
-        />
-        <motion.path
-          // Tercera línea: similar a la primera, rota para formar la X
-          variants={{
-            closed: { d: "M 2 18.5 L 22 18.5" },
-            open: { d: "M 3 3 L 18 18" },
-          }}
-          initial="closed" animate={isOpen ? "open" : "closed"} transition={{ duration: 0.3, ease: "easeInOut" }}
-        />
-      </svg>
-    </button>
-  );
-};
-
-// --- Componente Principal del Header ---
 export function Header() {
-  // Estado que controla si el panel móvil está abierto
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
+  const { scrollY } = useScroll()
 
-  // useEffect para bloquear el scroll del body cuando el menú móvil está abierto.
-  // Esto evita que la página detrás del panel se desplace mientras el menú está activo.
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+  // Detectar scroll para cambiar el estilo de la barra
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 50) {
+      setIsScrolled(true)
     } else {
-      document.body.style.overflow = 'unset';
+      setIsScrolled(false)
     }
-    return () => { document.body.style.overflow = 'unset'; };
-  }, [mobileMenuOpen]);
+  })
 
-  // Links que se muestran en la navegación principal (desktop y mobile)
-  const links = [
-    { href: '/servicios', label: 'Servicios' },
-    { href: '/demos', label: 'Demos' },
-    { href: '/portafolio', label: 'Portafolio' },
-    { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
-    { href: '/contacto', label: 'Contacto' },
-  ]
+  // Bloquear scroll body al abrir menú móvil
+  useEffect(() => {
+    if (mobileMenuOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = 'unset'
+  }, [mobileMenuOpen])
 
-  // Variantes de Framer Motion para el panel del menú móvil
-  const menuPanelVariants: Variants = {
-    hidden: { x: "100%", opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 30 } },
-    exit: { x: "100%", opacity: 0, transition: { duration: 0.3, ease: 'easeInOut' } },
-  }
-  
-  // Variantes para el contenedor y los items (staggered animation)
-  const menuContainerVariants: Variants = {
-    visible: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
-    hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } }
-  };
-
-  const menuItemVariants: Variants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 25 } },
-  };
-
-  // Estructura del header: logo a la izquierda, links centrales (desktop) y CTA a la derecha
   return (
-    <header className="fixed top-0 left-0 w-full z-50">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 border-b border-primary/10 backdrop-blur-md bg-background/80">
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5" aria-label="Inicio">
-            <div className="flex items-center gap-x-3">
-              <Image
-                className="h-8 w-auto"
-                src="/images/logo.png"
-                alt="Logo de Vertrex"
-                width={32}
-                height={32}
-                priority
-              />
-              <span className="font-display text-2xl font-bold tracking-wider text-primary hover:text-secondary transition-colors">
-                VERTREX S.C.
-              </span>
+    <>
+      {/* --- HEADER FLOTANTE (DESKTOP) --- */}
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'py-4' : 'py-6'
+        }`}
+      >
+        <div className="mx-auto max-w-[1400px] px-6">
+          <nav 
+            className={`flex items-center justify-between rounded-full px-6 transition-all duration-300 ${
+              isScrolled 
+                ? 'bg-neutral-900/80 backdrop-blur-xl border border-white/10 shadow-2xl py-3' 
+                : 'bg-transparent border border-transparent py-2'
+            }`}
+          >
+            
+            {/* LOGO */}
+            <div className="flex lg:flex-1">
+              <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3 group" aria-label="Inicio">
+                {/* Asegúrate de tener tu logo en public/images/logo.png */}
+                <div className="relative w-8 h-8 overflow-hidden rounded-lg">
+                    <Image
+                        src="/images/logo.png" 
+                        alt="Vertrex"
+                        width={32}
+                        height={32}
+                        className="object-cover group-hover:scale-110 transition-transform"
+                    />
+                </div>
+                <span className="font-display text-xl font-bold tracking-widest text-white group-hover:text-primary transition-colors">
+                  VERTREX
+                </span>
+              </Link>
             </div>
-          </Link>
-        </div>
 
-        {/* Links visibles en pantallas grandes */}
-        <div className="hidden lg:flex lg:gap-x-12">
-          {links.map((link) => ( <Link key={link.href} href={link.href} className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"> {link.label} </Link> ))}
-        </div>
+            {/* NAV LINKS (DESKTOP) */}
+            <div className="hidden lg:flex lg:gap-x-1">
+              {links.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                    <Link 
+                        key={link.href} 
+                        href={link.href} 
+                        className={`relative px-5 py-2 text-sm font-medium transition-colors rounded-full hover:text-white group overflow-hidden ${
+                            isActive ? 'text-white' : 'text-neutral-400'
+                        }`}
+                    >
+                        <span className="relative z-10">{link.label}</span>
+                        {/* Fondo activo/hover animado */}
+                        {isActive && (
+                            <motion.div layoutId="navbar-indicator" className="absolute inset-0 bg-white/10 rounded-full z-0" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />
+                        )}
+                        <div className="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 z-0 opacity-0 group-hover:opacity-100"></div>
+                    </Link>
+                )
+              })}
+            </div>
 
-        {/* CTA a la derecha en desktop */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="/contacto" className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-background shadow-sm hover:bg-primary/80">
-            Cotizar Proyecto
-          </Link>
-        </div>
-        
-        {/* Botón de menú para mobile */}
-        <div className="flex lg:hidden">
-          <MenuButton isOpen={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
-        </div>
-      </nav>
+            {/* CTA BUTTON (DESKTOP) */}
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
+              <Link 
+                href="/contacto" 
+                className={`rounded-full px-6 py-2.5 text-sm font-bold text-black shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 ${isScrolled ? 'bg-white' : 'bg-primary'}`}
+              >
+                Iniciar Proyecto
+              </Link>
+            </div>
 
-      {/* Panel del menú móvil con AnimatePresence para la entrada/salida */}
+            {/* HAMBURGER BUTTON (MOBILE) */}
+            <div className="flex lg:hidden">
+              <button
+                type="button"
+                className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white hover:text-primary transition-colors`}
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <HiBars3BottomRight className="h-7 w-7" />
+              </button>
+            </div>
+          </nav>
+        </div>
+      </motion.header>
+
+      {/* --- MENÚ MÓVIL FULLSCREEN --- */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <>
-            {/* Overlay semi-transparente que cierra el menú al hacer click */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 lg:hidden bg-black/60 backdrop-blur-sm"
+          >
+            {/* Panel Lateral */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/50 z-40"
-            />
-            <motion.div 
-              className="fixed inset-y-0 right-0 z-50 w-full max-w-xs overflow-y-auto bg-background p-6 shadow-xl"
-              variants={menuPanelVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-neutral-950 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10 border-l border-white/10 shadow-2xl"
             >
-              <div className="flex items-center justify-between">
-                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="-m-1.5 p-1.5" aria-label="Inicio">
-                   <div className="flex items-center gap-x-3">
-                      <Image className="h-8 w-auto" src="/images/logo-vertrex.svg" alt="Logo de Vertrex" width={32} height={32} />
-                      <span className="font-display text-2xl font-bold tracking-wider text-primary">
-                        VERTREX S.C.
-                      </span>
-                   </div>
+              
+              {/* Header del Menú */}
+              <div className="flex items-center justify-between mb-12">
+                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="-m-1.5 p-1.5 flex items-center gap-3">
+                    <Image src="/images/logo.png" alt="Vertrex" width={28} height={28} />
+                    <span className="font-display text-lg font-bold tracking-widest text-white">VERTREX</span>
                 </Link>
                 <button
                   type="button"
-                  className="-m-2.5 rounded-md p-2.5 text-foreground transition-colors hover:text-primary"
+                  className="-m-2.5 rounded-full p-2.5 text-neutral-400 hover:text-white hover:bg-white/10 transition-all"
                   onClick={() => setMobileMenuOpen(false)}
-                  aria-label="Cerrar menú"
                 >
                   <HiXMark className="h-6 w-6" />
                 </button>
               </div>
-              <motion.div
-                className="mt-12 flow-root"
-                variants={menuContainerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                <div className="-my-6 divide-y divide-gray-500/25">
-                  <div className="space-y-2 py-6">
-                    {links.map((link) => (
-                      <motion.div key={link.href} variants={menuItemVariants}>
-                        <Link href={link.href} onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground transition-colors hover:bg-primary/10 hover:text-primary">{link.label}</Link>
+
+              {/* Links de Navegación */}
+              <div className="mt-6 flow-root">
+                <div className="-my-6 divide-y divide-white/5">
+                  <div className="space-y-4 py-6">
+                    {links.map((link, idx) => (
+                      <motion.div
+                        key={link.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 + (idx * 0.05) }}
+                      >
+                        <Link
+                            href={link.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="group flex items-center justify-between -mx-3 rounded-xl px-3 py-4 text-xl font-bold leading-7 text-white hover:bg-white/5 transition-all"
+                        >
+                            {link.label}
+                            <HiArrowRight className="text-white/20 group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transform duration-300" />
+                        </Link>
                       </motion.div>
                     ))}
                   </div>
-                  <div className="py-6">
-                    <motion.div variants={menuItemVariants}>
-                      <Link href="/contacto" onClick={() => setMobileMenuOpen(false)} className="-mx-3 block rounded-lg bg-primary/10 px-3 py-2.5 text-base font-semibold leading-7 text-primary transition-colors hover:bg-primary/20">Cotizar Proyecto</Link>
+                  
+                  {/* CTA Móvil */}
+                  <div className="py-8 space-y-4">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                    >
+                        <Link
+                            href="/contacto"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="flex items-center justify-center w-full gap-2 rounded-xl bg-primary px-3 py-4 text-base font-bold text-black hover:bg-primary/90 transition-all shadow-[0_0_20px_theme(colors.primary.DEFAULT)]"
+                        >
+                            Cotizar Proyecto
+                        </Link>
+                    </motion.div>
+                    
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                    >
+                        <Link
+                            href="https://wa.me/573000000000"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="flex items-center justify-center w-full gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-4 text-base font-bold text-white hover:bg-white/10 transition-all"
+                        >
+                            <FaWhatsapp size={20} className="text-green-500"/> WhatsApp Directo
+                        </Link>
                     </motion.div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
+
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   )
 }
+
+// Icono auxiliar para flecha
+import { HiArrowRight } from 'react-icons/hi2'

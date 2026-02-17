@@ -14,7 +14,7 @@ export function WhatsAppButton() {
 
   return (
     // Enlace que abre WhatsApp en una nueva pestaña con el mensaje prellenado
-    <Link href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-50">
+    <Link href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-20">
       <motion.div
         // Animación de entrada y microinteracciones (hover / tap)
         initial={{ scale: 0, opacity: 0 }}

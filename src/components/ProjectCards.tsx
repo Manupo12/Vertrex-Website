@@ -77,7 +77,7 @@ export const WebProjectCard = ({ project }: { project: Project }) => {
             >
                 {/* Imagen de portada optimizada con next/image */}
                 <Image
-                    src={project.coverImage}
+                    src={project.coverImage ?? '/images/proximamente.jpeg'}
                     alt={`Imagen del proyecto ${project.title}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"

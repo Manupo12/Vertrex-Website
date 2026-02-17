@@ -159,7 +159,7 @@ export default function ContactForm() {
           </button>
         </motion.div>
         {status === 'error' && (
-          <p className="mt-4 text-center text-red-400">Hubo un error al enviar el mensaje. Por favor, revisa tus datos o inténtalo de nuevo más tarde.</p>
+          <p className="mt-4 text-center text-primary">Hubo un error al enviar el mensaje. Por favor, revisa tus datos o inténtalo de nuevo más tarde.</p>
         )}
       </motion.form>
     </motion.div>
