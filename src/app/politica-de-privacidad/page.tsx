@@ -1,111 +1,183 @@
 import { ScrollAnimationWrapper } from "@/components/ScrollAnimationWrapper";
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { HiOutlineShieldCheck, HiArrowRight } from 'react-icons/hi2';
 
-// Metadata de la página: título y descripción que usa Next.js para el head
+// Metadata de la página
 export const metadata: Metadata = {
   title: 'Política de Privacidad | Vertrex',
   description: 'Conoce cómo Vertrex maneja y protege tus datos personales. Tu privacidad es nuestro compromiso.',
 };
 
-// Componente auxiliar: Section
-// Usa ScrollAnimationWrapper para animar la entrada de cada sección y aplica estilos de contenido
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <ScrollAnimationWrapper className="mb-10">
-    {/* Título de sección */}
-    <h2 className="text-2xl font-bold text-primary mb-4 font-display">{title}</h2>
-    {/* Contenedor de contenido con clases de 'prose' para formato tipográfico */}
-    <div className="prose prose-invert max-w-none prose-p:text-foreground/80 prose-li:text-foreground/80 prose-a:text-primary hover:prose-a:text-primary/80 prose-headings:font-display">
-      {children}
+// Componente de Sección (Diseño Editorial Asimétrico)
+const Section = ({ number, title, children }: { number: string, title: string; children: React.ReactNode }) => (
+  <ScrollAnimationWrapper className="mb-16 md:mb-24 relative group">
+    <div className="flex flex-col md:flex-row gap-4 md:gap-16 items-start">
+        {/* Lado Izquierdo: Número y Título Sticky */}
+        <div className="md:w-1/3 shrink-0 md:sticky md:top-32">
+            <span className="text-primary font-mono font-bold text-sm tracking-widest block mb-3 opacity-80">{number}</span>
+            <h2 className="text-2xl md:text-3xl font-bold text-white font-display leading-tight">{title}</h2>
+        </div>
+        
+        {/* Lado Derecho: Contenido Legal */}
+        <div className="md:w-2/3 text-neutral-400 text-base md:text-lg leading-relaxed space-y-6">
+            {children}
+        </div>
     </div>
+    {/* Línea divisoria sutil inferior */}
+    <div className="hidden md:block absolute -bottom-12 left-1/3 right-0 h-px bg-white/5 group-hover:bg-white/10 transition-colors"></div>
   </ScrollAnimationWrapper>
 );
 
 // Página principal de Política de Privacidad
-// Renderiza varias secciones que explican cómo se manejan los datos y los derechos del usuario
 export default function PoliticaDePrivacidadPage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 lg:px-8 pt-28 pb-16 sm:pt-32">
-      {/* Encabezado principal con animación */}
-      <ScrollAnimationWrapper>
-        <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl font-display text-center">
-          Política de Privacidad
-        </h1>
-        {/* Fecha de última actualización (texto estático por ahora) */}
-        <p className="mt-4 text-center text-foreground/70">Última actualización: 28 de Agosto de 2025</p>
-      </ScrollAnimationWrapper>
+    <div className="bg-neutral-950 text-white min-h-screen selection:bg-primary selection:text-black font-sans pb-32">
       
-      <div className="mt-16">
-        {/* 1. Introducción: propósito y cumplimiento legal */}
-        <Section title="1. Introducción">
+      {/* --- HEADER EDITORIAL --- */}
+      <section className="relative pt-40 pb-20 px-6 overflow-hidden border-b border-white/5">
+        {/* Resplandor sutil de fondo */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+
+        <div className="mx-auto max-w-[1200px] relative z-10 text-center">
+            <ScrollAnimationWrapper>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest mb-8 backdrop-blur-md">
+                    <HiOutlineShieldCheck className="w-4 h-4" /> Transparencia y Seguridad
+                </div>
+                <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white font-display mb-6">
+                    Política de Privacidad
+                </h1>
+                <p className="text-lg text-neutral-500 font-mono">
+                    Última actualización: 15 de Marzo de 2026
+                </p>
+            </ScrollAnimationWrapper>
+        </div>
+      </section>
+
+      {/* --- CONTENIDO LEGAL --- */}
+      <section className="mx-auto max-w-[1200px] px-6 lg:px-8 pt-20">
+        
+        <Section number="01" title="Introducción">
           <p>
-            Bienvenido a Vertrex S.C. (&quot;nosotros&quot;, &quot;nuestro&quot;). Nos comprometemos a proteger tu privacidad y a manejar tus datos personales de manera transparente y segura, en cumplimiento con la Ley 1581 de 2012 de Habeas Data en Colombia. Esta Política de Privacidad explica qué información recopilamos a través de nuestro sitio web y cómo la usamos.
+            Bienvenido a Vertrex S.C. (&quot;nosotros&quot;, &quot;nuestro&quot;). Nos comprometemos a proteger tu privacidad y a manejar tus datos personales de manera transparente y segura, en estricto cumplimiento con la <strong>Ley 1581 de 2012 de Habeas Data</strong> en Colombia.
+          </p>
+          <p>
+            Esta Política de Privacidad explica qué información recopilamos a través de nuestro ecosistema digital, cómo la procesamos y los mecanismos que utilizamos para protegerla.
           </p>
         </Section>
 
-        {/* 2. Información que Recopilamos: campos típicos recogidos por formularios */}
-        <Section title="2. Información que Recopilamos">
+        <Section number="02" title="Información que Recopilamos">
           <p>
-            Recopilamos información que nos proporcionas directamente cuando utilizas nuestro formulario de contacto o cuestionario de proyecto. Esta información puede incluir:
+            Recopilamos información que nos proporcionas directamente cuando interactúas con nosotros (por ejemplo, al utilizar nuestro formulario de contacto o agendar una consulta). Esta información incluye:
           </p>
-          <ul>
-            <li>Nombre Completo</li>
-            <li>Dirección de correo electrónico</li>
-            <li>Nombre de tu negocio o proyecto</li>
-            <li>Cualquier otra información que nos envíes voluntariamente en tu mensaje.</li>
+          <ul className="space-y-3 mt-4">
+            <li className="flex items-start gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0"></div>
+                <span><strong>Datos de Identificación:</strong> Nombre completo y nombre de tu empresa o proyecto.</span>
+            </li>
+            <li className="flex items-start gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0"></div>
+                <span><strong>Datos de Contacto:</strong> Dirección de correo electrónico y número de teléfono (WhatsApp).</span>
+            </li>
+            <li className="flex items-start gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 shrink-0"></div>
+                <span><strong>Datos Operativos:</strong> Cualquier información técnica, modelos de negocio o datos financieros que nos envíes voluntariamente para cotizar tu ecosistema digital.</span>
+            </li>
           </ul>
         </Section>
 
-        {/* 3. Uso de la información: finalidades del tratamiento */}
-        <Section title="3. Cómo Usamos tu Información">
+        <Section number="03" title="Uso de la Información">
           <p>
-            La información que nos proporcionas se utiliza exclusivamente para los siguientes propósitos:
+            La información que nos proporcionas es tratada como confidencial y se utiliza exclusivamente para los siguientes propósitos operativos:
           </p>
-          <ul>
-            <li>Para responder a tus consultas, preguntas y solicitudes de cotización o demos.</li>
-            <li>Para comunicarnos contigo acerca de los servicios en los que has mostrado interés.</li>
-            <li>Para mejorar la calidad de nuestros servicios y la experiencia en nuestro sitio web.</li>
+          <ul className="space-y-3 mt-4">
+            <li className="flex items-start gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
+                <span>Responder a tus consultas, auditar tus necesidades y generar presupuestos técnicos precisos.</span>
+            </li>
+            <li className="flex items-start gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
+                <span>Coordinar reuniones, demos y entregar avances de los ecosistemas en desarrollo.</span>
+            </li>
           </ul>
-          <p>
-            Nunca venderemos, alquilaremos ni compartiremos tu información personal con terceros para fines de marketing sin tu consentimiento explícito.
-          </p>
+          <div className="mt-6 p-5 bg-primary/5 border border-primary/20 rounded-xl">
+            <p className="text-primary text-sm font-medium m-0">
+              <strong>Garantía Vertrex:</strong> Nunca venderemos, alquilaremos ni compartiremos tu información corporativa, secretos de negocio o datos personales con terceros para fines comerciales sin tu consentimiento explícito.
+            </p>
+          </div>
         </Section>
         
-        {/* 4. Seguridad de los datos: medidas generales y limitaciones */}
-        <Section title="4. Seguridad de los Datos">
+        <Section number="04" title="Seguridad de los Datos">
             <p>
-                Tomamos medidas de seguridad técnicas y administrativas razonables para proteger tu información contra el acceso no autorizado, la alteración o la destrucción. Sin embargo, ningún método de transmisión por Internet es 100% seguro.
+                Implementamos medidas de seguridad técnicas, físicas y administrativas de alto nivel para proteger tu información contra el acceso no autorizado, la alteración, divulgación o destrucción. 
+            </p>
+            <p>
+                Nuestras bases de datos están encriptadas y el acceso a la información de clientes está estrictamente limitado a los ingenieros y diseñadores asignados a tu proyecto. Sin embargo, debes comprender que ningún método de transmisión por Internet es 100% infalible.
             </p>
         </Section>
 
-        {/* 5. Derechos del titular: listado de derechos según la legislación */}
-        <Section title="5. Tus Derechos (Habeas Data)">
+        {/* NUEVA SECCIÓN DE PROTECCIÓN INTELECTUAL PARA MOCKUPS */}
+        <Section number="05" title="Protección de Propiedad Intelectual e Información Confidencial">
             <p>
-                De acuerdo con la legislación colombiana, como titular de los datos, tienes derecho a:
+                La relación con nuestros clientes se basa en la confianza mutua y el respeto por el trabajo intelectual.
             </p>
-            <ul>
-                <li>Conocer, actualizar y rectificar tus datos personales.</li>
-                <li>Solicitar prueba de la autorización otorgada para el tratamiento de tus datos.</li>
-                <li>Ser informado sobre el uso que se le ha dado a tus datos personales.</li>
-                <li>Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la ley.</li>
-                <li>Revocar la autorización y/o solicitar la supresión de tus datos.</li>
+            <div className="mt-6 p-5 bg-white/5 border border-white/10 rounded-xl mb-6">
+                <p className="text-white text-sm font-medium m-0 leading-relaxed">
+                <strong className="block text-base mb-1 text-primary">Protección de Diseños Previos:</strong> 
+                Toda maqueta visual (mockup), arquitectura de software, propuesta técnica o prototipo interactivo compartido contigo durante la fase de consultoría o cotización <strong>es propiedad intelectual exclusiva de Vertrex S.C.</strong> La recopilación de tus datos para enviarte estas propuestas <strong>NO</strong> otorga derecho alguno a copiar, distribuir o entregar estos diseños a agencias de terceros o desarrolladores externos sin nuestra autorización explícita o la liquidación de la fase de diseño.
+                </p>
+            </div>
+            <p>
+                Del mismo modo, Vertrex S.C. se compromete a mantener estricta confidencialidad sobre las ideas de negocio, lógicas operativas o estrategias que el cliente nos comparta durante estas fases previas, actuando bajo principios de secreto profesional incluso si el proyecto no llega a concretarse.
+            </p>
+        </Section>
+
+        <Section number="06" title="Tus Derechos (Habeas Data)">
+            <p>
+                De acuerdo con la legislación colombiana, como titular legítimo de los datos, tienes el control absoluto sobre ellos y el derecho a:
+            </p>
+            <ul className="space-y-3 mt-4">
+                <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
+                    <span>Conocer, actualizar y rectificar tus datos personales en nuestras bases.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
+                    <span>Solicitar prueba de la autorización otorgada para el tratamiento de los mismos.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
+                    <span>Revocar tu autorización y/o solicitar la supresión inmediata de tus datos de nuestros servidores.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
+                    <span>Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la ley.</span>
+                </li>
             </ul>
         </Section>
         
-        {/* 6. Cambios: aviso sobre actualizaciones de la política */}
-        <Section title="6. Cambios a esta Política">
+        <Section number="07" title="Cambios a esta Política">
             <p>
-                Podemos actualizar esta Política de Privacidad ocasionalmente. La fecha de &quot;Última actualización&quot; en la parte superior de esta página indicará cuándo se realizaron los últimos cambios. Te recomendamos revisarla periódicamente.
+            La tecnología y la legislación evolucionan, por lo que podemos actualizar esta Política de Privacidad ocasionalmente para reflejar mejoras en nuestros procesos de seguridad. La fecha de &quot;Última actualización&quot; en la cabecera indicará cuándo se realizaron los últimos cambios.
             </p>
         </Section>
 
-        {/* 7. Contacto: cómo comunicarse para consultas o ejercer derechos */}
-        <Section title="7. Contacto">
+        <Section number="08" title="Información de Contacto">
             <p>
-                Si tienes alguna pregunta sobre esta Política de Privacidad o deseas ejercer tus derechos, puedes contactarnos a través de nuestro <Link href="/contacto">formulario de contacto</Link> o escribiéndonos directamente a <a href="mailto:vertrexsc@gmail.com">vertrexsc@gmail.com</a>.
+                Si tienes alguna pregunta técnica o legal sobre cómo manejamos tus datos, o si deseas ejercer tus derechos de Habeas Data, nuestro equipo está a tu disposición:
             </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-4">
+                <Link href="/contacto" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-colors">
+                    Ir al Formulario de Contacto
+                </Link>
+                <a href="mailto:vertrexsc@gmail.com" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold hover:bg-primary hover:text-black transition-colors group">
+                    vertrexsc@gmail.com <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                </a>
+            </div>
         </Section>
-      </div>
+
+      </section>
     </div>
   );
 }

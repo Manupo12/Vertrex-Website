@@ -14,7 +14,7 @@ import {
     HiOutlineSparkles,
     HiOutlineQuestionMarkCircle
 } from 'react-icons/hi2'
-import { FaInstagram, FaTiktok, FaFacebookF } from 'react-icons/fa'
+import { FaInstagram, FaTiktok, FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 
 // Servicios (Sincronizados con la página de Servicios)
 const servicesOptions = [
@@ -108,7 +108,18 @@ export default function ContactoPage() {
                             </div>
                             <div>
                                 <p className="text-sm text-neutral-500 font-bold uppercase tracking-wider mb-1">Email</p>
-                                <a href="mailto:hola@vertrex.com" className="text-lg text-white hover:text-primary transition-colors">hola@vertrex.com</a>
+                                <a href="mailto:vertrexsc@gmail.com" className="text-lg text-white hover:text-primary transition-colors">vertrexsc@gmail.com
+</a>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4 group">
+                            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-primary group-hover:bg-primary group-hover:text-black transition-all">
+                                <FaWhatsapp size={24}/>
+                            </div>
+                            <div>
+                                <p className="text-sm text-neutral-500 font-bold uppercase tracking-wider mb-1">WhatsApp</p>
+                                <a href="https://wa.me/573202070445" target="_blank" className="text-lg text-white hover:text-primary transition-colors">+57 3202070445</a>
                             </div>
                         </div>
 
@@ -117,8 +128,8 @@ export default function ContactoPage() {
                                 <HiOutlinePhone size={24}/>
                             </div>
                             <div>
-                                <p className="text-sm text-neutral-500 font-bold uppercase tracking-wider mb-1">Teléfono / WhatsApp</p>
-                                <a href="https://wa.me/573000000000" target="_blank" className="text-lg text-white hover:text-primary transition-colors">+57 300 000 0000</a>
+                                <p className="text-sm text-neutral-500 font-bold uppercase tracking-wider mb-1">Teléfono</p>
+                                <a href="tel:+573332613080" className="text-lg text-white hover:text-primary transition-colors">+57 333 261 3080</a>
                             </div>
                         </div>
 
@@ -140,13 +151,13 @@ export default function ContactoPage() {
                         <HiOutlineSparkles className="text-primary"/> Síguenos en Redes
                     </h4>
                     <div className="flex gap-4">
-                        <Link href="https://instagram.com" target="_blank" className="w-14 h-14 rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-purple-500 hover:to-orange-500 hover:border-transparent transition-all duration-300 shadow-lg group" title="Instagram">
+                        <Link href="https://www.instagram.com/vertrexsc/" target="_blank" className="w-14 h-14 rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-purple-500 hover:to-orange-500 hover:border-transparent transition-all duration-300 shadow-lg group" title="Instagram">
                             <FaInstagram size={28} className="group-hover:scale-110 transition-transform"/>
                         </Link>
                         <Link href="https://tiktok.com" target="_blank" className="w-14 h-14 rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center text-white hover:bg-black hover:border-white/50 transition-all duration-300 shadow-lg group" title="TikTok">
                             <FaTiktok size={26} className="group-hover:scale-110 transition-transform"/>
                         </Link>
-                        <Link href="https://facebook.com" target="_blank" className="w-14 h-14 rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center text-white hover:bg-blue-600 hover:border-transparent transition-all duration-300 shadow-lg group" title="Facebook">
+                        <Link href="https://www.facebook.com/share/1Gj5DxAdYf/" target="_blank" className="w-14 h-14 rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center text-white hover:bg-blue-600 hover:border-transparent transition-all duration-300 shadow-lg group" title="Facebook">
                             <FaFacebookF size={26} className="group-hover:scale-110 transition-transform"/>
                         </Link>
                     </div>

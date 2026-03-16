@@ -11,9 +11,10 @@ import { FaWhatsapp } from 'react-icons/fa'
 // --- DATOS DE NAVEGACIÓN ---
 const links = [
   { href: '/servicios', label: 'Servicios' },
-  { href: '/demos', label: 'Laboratorio' }, // Cambié "Demos" por "Laboratorio" para sonar más pro
+  { href: '/demos', label: 'Demostraciones' }, // Cambié "Demos" por "Laboratorio" para sonar más pro
   { href: '/portafolio', label: 'Portafolio' },
-  { href: '/sobre-nosotros', label: 'Manifiesto' }, // "Manifiesto" suena más fuerte que "Sobre Nosotros"
+  { href: '/sobre-nosotros', label: 'Nosotros' },
+  { href: '/contacto', label: 'Contacto' } // "Manifiesto" suena más fuerte que "Sobre Nosotros"
 ]
 
 export function Header() {

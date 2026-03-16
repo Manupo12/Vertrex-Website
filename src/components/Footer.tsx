@@ -16,7 +16,7 @@ const navigation = {
   ],
   legal: [
     { name: 'Política de Privacidad', href: '/politica-de-privacidad' },
-    { name: 'Términos de Servicio', href: '#' }, // Agregado por simetría
+    { name: 'Términos de Servicio', href: '/terminos' }, // Agregado por simetría
   ],
 }
 
