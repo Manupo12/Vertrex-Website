@@ -213,7 +213,7 @@ const communityProjects = [
     },
     {
         id: 'campus-usco',
-        title: 'Campus USCO Digital',
+        title: 'Marketplace USCO',
         subtitle: 'Marketplace Universitario & Directorio',
         mission: 'Facilitar el comercio local y centralizar la información académica para la comunidad de la universidad.',
         description: 'Una app móvil (PWA) que conecta estudiantes y vendedores. Funciona como un mercado virtual con feed de productos, perfiles de tiendas y un directorio de profesores. Todo optimizado para pantallas móviles con interacciones rápidas e inicio de sesión seguro.',
