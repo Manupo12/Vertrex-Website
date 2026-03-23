@@ -1058,7 +1058,7 @@ const ServicesSection = () => {
                         </div>
                         <h3 className="text-xl font-bold text-white mb-3 font-display">Apps Móviles & PWA</h3>
                         <p className="text-neutral-400 text-sm leading-relaxed mb-6 flex-grow">
-                            Llevamos tu negocio al bolsillo de tus clientes. Aplicaciones nativas para Android y Web Apps Progresivas instalables directamente desde el navegador sin pasar por tiendas.
+                            Llevamos tu negocio al bolsillo de tus clientes. Aplicaciones nativas para Android y Web Apps Progresivas instalables directamente desde el navegador sin pasar por tiendas, instalables y utilizables tanto para Iphone como para Android.
                         </p>
 
                         {/* Botón Flotante en Hover */}
