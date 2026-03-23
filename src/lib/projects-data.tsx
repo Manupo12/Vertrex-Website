@@ -239,7 +239,7 @@ export const projects: Project[] = [
   {
     slug: 'campus-usco',
     id: 'campus-usco',
-    title: 'Campus USCO Digital',
+    title: 'Marketplace USCO',
     subtitle: 'Marketplace Universitario & Directorio',
     category: 'Ingeniería Social',
     client: 'Comunidad Estudiantil USCO',
