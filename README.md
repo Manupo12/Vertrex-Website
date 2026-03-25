@@ -1,91 +1,93 @@
-# Vertrex S.C.
+# Vertrex Website
 
-> Tecnología con alma humana.
+Sitio web oficial de **Vertrex S.C.** orientado a presentación de servicios, demostración de portafolio y captación de clientes.
 
-Este repositorio contiene el código fuente del sitio web oficial de **Vertrex S.C.**, una empresa de soluciones digitales con sede en Neiva, Colombia. Este proyecto va más allá de un simple sitio informativo; es una plataforma de marketing y captación de clientes diseñada para ser moderna, persuasiva y de alto rendimiento.
+## 🌍 Demo en vivo
 
----
+- [https://vertrex-website.vercel.app/](https://vertrex-website.vercel.app/)
 
-## 🚀 Demo en Vivo
+## 🎯 Propósito del proyecto
 
-Puedes ver la última versión desplegada del proyecto en Vercel:
+Esta web está construida para:
 
-**[https://vertrex-website.vercel.app/](https://vertrex-website.vercel.app/)**
+- Comunicar qué hace Vertrex y cómo trabaja.
+- Mostrar casos reales, demos y plantillas.
+- Convertir visitantes en clientes por medio de formularios y CTA.
+- Mantener una experiencia visual moderna en desktop y móvil.
 
-*(¡Esta es la URL de tu proyecto en Vercel! Si usas un dominio personalizado, actualízala aquí.)*
+## 🧩 Secciones principales
 
-## 📸 Captura de Pantalla
+- `/` Inicio (hero, propuesta de valor, demos y bloques de conversión).
+- `/servicios` Servicios y metodología de trabajo.
+- `/portafolio` Proyectos y catálogo.
+- `/portafolio/[slug]` Detalle dinámico por proyecto.
+- `/demos` Galería de demostraciones visuales.
+- `/cuestionario` Formulario guiado multi-paso.
+- `/contacto` Contacto directo y formulario.
+- `/sobre-nosotros` Historia, visión y cultura.
+- `/terminos` Términos y condiciones.
+- `/politica-de-privacidad` Política de privacidad.
 
-*Te recomiendo usar una herramienta como [ScreenToGif](https://www.screentogif.com/) para grabar un GIF del nuevo Hero animado y reemplazar esta imagen.*
+## 🏗️ Estructura del código
 
-![Captura de pantalla del sitio Vertrex](https://via.placeholder.com/800x450.png?text=Homepage+de+Vertrex)
+```text
+src/
+  app/                # Rutas del App Router (páginas)
+  components/         # Componentes reutilizables de UI
+  lib/                # Datos estáticos y tipos de dominio
+```
 
-## ✨ Características Principales
+- `src/app/layout.tsx`: layout raíz, fuentes globales y metadata base.
+- `src/app/globals.css`: estilos globales y variables de tema.
+- `src/lib/*-data.ts`: contenido desacoplado para servicios, demos, portafolio y about.
 
-- **Hero Section Dinámica:** Encabezado con texto animado (`react-type-animation`) e íconos que cambian de forma sincronizada, presentando una oferta de valor clara: una demo visual gratuita.
-- **Showcase de Demos Funcionales:** Un carrusel interactivo (`embla-carousel`) que muestra videos de demos de proyectos en maquetas de dispositivos (móvil y escritorio), ofreciendo una prueba visual inmediata de las capacidades de la empresa.
-- **Arquitectura de Portafolio Avanzada:**
-    - **Páginas de Detalle Dinámicas:** Rutas generadas programáticamente (`/portafolio/[slug]`) para mostrar "casos de estudio" detallados para cada proyecto, con un diseño inspirado en la Play Store.
-    - **Galería Filtrable:** La página principal del portafolio presenta los proyectos en dos columnas distintas ("Proyectos Vertrex" y "Proyectos para Clientes") con filtros interactivos independientes.
-    - **Tarjetas Polimórficas:** El sistema utiliza diferentes diseños de tarjeta (`AppProjectCard` vs. `WebProjectCard`) según el tipo de proyecto.
-- **Cuestionario Interactivo Multi-paso:** Una herramienta de captación de clientes de 4 pasos con barra de progreso, validación por paso, lógica condicional y capacidad para subir archivos.
-- **Experiencia Móvil de Primer Nivel:** Cada página y componente ha sido meticulosamente refinado para una experiencia de usuario impecable en dispositivos móviles, con animaciones fluidas (`framer-motion`), bloqueo de scroll en menús y layouts totalmente adaptativos.
-- **Código y Datos Desacoplados:** La información de proyectos, servicios y demos está centralizada en archivos de datos en `src/lib`, siguiendo el principio DRY (Don't Repeat Yourself) para un mantenimiento sencillo y escalable.
+## ⚙️ Stack
 
-## 💻 Pila Tecnológica (Tech Stack)
+- **Next.js 15** (App Router)
+- **React + TypeScript**
+- **Tailwind CSS v4**
+- **Framer Motion**
+- **React Icons**
+- **Embla Carousel**
 
-- **Framework:** [Next.js](https://nextjs.org/) (App Router)
-- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
-- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
-- **Animaciones:** [Framer Motion](https://www.framer.com/motion/), [React Type Animation](https://www.npmjs.com/package/react-type-animation)
-- **Componentes:** [React Icons](https://react-icons.github.io/react-icons/), [Embla Carousel React](https://www.embla-carousel.com/)
-- **Formularios:** [Web3Forms](https://web3forms.com/)
-- **Despliegue:** [Vercel](https://vercel.com/)
+## 🚀 Desarrollo local
 
-## 🛠️ Cómo Empezar (Desarrollo Local)
+### Requisitos
 
-Sigue estos pasos para levantar una copia del proyecto en tu máquina local.
+- Node.js 18+ (recomendado Node.js 20+)
+- npm
 
-### Prerrequisitos
+### Pasos
 
-Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión 18.x o superior).
+```bash
+git clone https://github.com/Manupo12/Vertrex-Website.git
+cd Vertrex-Website
+npm install
+npm run dev
+```
 
-### Instalación y Configuración
+Abrir [http://localhost:3000](http://localhost:3000).
 
-1.  **Clona el repositorio:**
-    ```bash
-    git clone [https://github.com/Manupo12/Vertrex-Website.git](https://github.com/Manupo12/Vertrex-Website.git)
-    ```
+## 📜 Scripts
 
-2.  **Navega al directorio del proyecto:**
-    ```bash
-    cd Vertrex-Website
-    ```
+```bash
+npm run dev      # desarrollo
+npm run build    # build de producción
+npm run start    # correr build
+npm run lint     # lint del proyecto
+```
 
-3.  **Instala las dependencias:**
-    ```bash
-    npm install
-    ```
+## 🛰️ Despliegue
 
-4.  **Configura las Variables de Entorno:**
-    Este proyecto necesita una clave de API para que los formularios funcionen.
-    - Crea una copia del archivo `.env.example` y renómbrala a `.env.local`.
-    ```bash
-    cp .env.example .env.local
-    ```
-    - Abre el nuevo archivo `.env.local` y añade tu clave de acceso de Web3Forms.
+Preparado para **Vercel**. Cada push a `main` puede desplegar automáticamente si el proyecto está vinculado.
 
-5.  **Ejecuta el servidor de desarrollo:**
-    ```bash
-    npm run dev
-    ```
+## 📝 Notas de mantenimiento
 
-6.  Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver el resultado.
+- Mantén actualizados los datos en `src/lib` cuando cambie el contenido comercial.
+- Si agregas nuevas páginas, incluye su metadata y revisa consistencia visual móvil.
+- Antes de desplegar, ejecutar:
 
-## 🌐 Despliegue
-
-Este proyecto está configurado para un despliegue continuo en [Vercel](https://vercel.com/). Cualquier `push` a la rama `main` iniciará un nuevo despliegue automáticamente. No olvides configurar las variables de entorno en el panel de tu proyecto en Vercel.
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT.
+```bash
+npm run lint
+npm run build
+```

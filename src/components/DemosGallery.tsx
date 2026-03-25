@@ -1,5 +1,7 @@
  'use client'
 
+// Galería de demos: muestra variantes de demostración con navegación visual para escritorio y móvil.
+
 // Importes y hooks
 import { useState } from 'react'
 import { demos, Demo } from '@/lib/demos-data'

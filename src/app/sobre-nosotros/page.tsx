@@ -1,5 +1,7 @@
 'use client'
 
+// Página sobre nosotros: comunica historia, valores y enfoque humano de la marca.
+
 import { ScrollAnimationWrapper } from "@/components/ScrollAnimationWrapper";
 import Link from "next/link";
 import { 

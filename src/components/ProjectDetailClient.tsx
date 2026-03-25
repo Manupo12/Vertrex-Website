@@ -1,5 +1,7 @@
 'use client'
 
+// Vista cliente del detalle de proyecto: maneja animaciones, galería y contenido completo del caso.
+
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Variants } from 'framer-motion'

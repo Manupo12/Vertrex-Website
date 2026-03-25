@@ -1,5 +1,7 @@
 'use client'
 
+// Página de portafolio: organiza casos reales, proyectos comunitarios y plantillas en una vista comercial.
+
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -89,26 +91,6 @@ const clientsData = [
             { icon: <HiOutlineMegaphone/>, title: 'Audio & Confeti', desc: 'Efectos multimedia al abrir el regalo.' },
             { icon: <HiOutlineIdentification/>, title: 'Tarjeta Holográfica', desc: 'Efecto visual brillante avanzado.' },
             { icon: <HiOutlineQrCode/>, title: 'Código Dinámico', desc: 'Animación de descifrado y tap-to-copy.' }
-        ],
-        color: 'from-primary/20 to-primary/20',
-        accent: 'text-primary',
-        isMobileOnly: true
-    },
-    {
-        id: 'refugio-dannita',
-        title: 'Refugio Personal',
-        subtitle: 'Experiencia Web Mobile-First',
-        category: 'Detalle Especial / Interactivo',
-        description: 'Un espacio digital íntimo diseñado para consolar y acompañar. Cuenta con cartas selladas que guardan en memoria cuáles has leído, un oráculo interactivo "Piscis" nocturno, galería de recuerdos revelable y un entorno inmersivo con flores que reaccionan al tacto.',
-        tags: ['Mobile First', 'Web App', 'Inmersivo'],
-        link: 'https://dannita.vercel.app/',
-        buttonText: 'Ver Experiencia',
-        images: { desktop: '', mobile: '/images/pagados/novia/celular.webp' },
-        features: [
-            { icon: <HiOutlineSparkles/>, title: 'Entorno Reactivo', desc: 'Flores flotantes al tocar la pantalla.' },
-            { icon: <HiOutlineHeart/>, title: 'Cartas con Memoria', desc: 'Mensajes sellados que recuerdan tu lectura.' },
-            { icon: <HiOutlineLightBulb/>, title: 'Oráculo Interactivo', desc: 'Frases aleatorias nocturnas al toque.' },
-            { icon: <HiOutlineBell/>, title: 'Notificaciones', desc: 'Avisos silenciosos vía Formspree.' }
         ],
         color: 'from-primary/20 to-primary/20',
         accent: 'text-primary',

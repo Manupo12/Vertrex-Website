@@ -1,5 +1,7 @@
 'use client'
 
+// Página de servicios: explica la oferta comercial, beneficios, proceso y llamado final a contacto.
+
 import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'

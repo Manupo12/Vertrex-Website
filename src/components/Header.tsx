@@ -1,5 +1,7 @@
 'use client'
 
+// Header principal: navegación del sitio, estado del menú móvil y enlaces a secciones comerciales.
+
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'

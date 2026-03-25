@@ -1,3 +1,4 @@
+// Fuente de datos para demos: define tarjetas, variantes y recursos de video por caso.
 export interface DemoVariant {
   label: string; 
   videoMobile: string;

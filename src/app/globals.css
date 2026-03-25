@@ -1,3 +1,4 @@
+/* Archivo global de estilos: define tema base, utilidades y ajustes visuales compartidos en toda la web. */
 @import "tailwindcss";
 
 /* En Tailwind v4, usamos @theme para definir todo.

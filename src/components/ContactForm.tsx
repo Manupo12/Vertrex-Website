@@ -1,5 +1,7 @@
 'use client'
 
+// Formulario reutilizable de contacto: captura datos del lead y muestra estado de envío.
+
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaCheckCircle } from 'react-icons/fa'

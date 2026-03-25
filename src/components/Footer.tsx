@@ -1,5 +1,7 @@
 'use client'
 
+// Footer global: contiene enlaces clave, redes sociales, branding y accesos rápidos de contacto.
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaWhatsapp, FaInstagram, FaFacebookF, FaTiktok, FaArrowRight } from 'react-icons/fa' // Cambié FaFacebook por FaFacebookF para uniformidad

@@ -1,3 +1,4 @@
+// Página legal: define política de privacidad y tratamiento de datos para usuarios del sitio.
 import { ScrollAnimationWrapper } from "@/components/ScrollAnimationWrapper";
 import type { Metadata } from 'next';
 import Link from 'next/link';

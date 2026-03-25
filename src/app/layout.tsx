@@ -1,3 +1,4 @@
+// Layout raíz de la aplicación: aplica fuentes, estilos globales, metadata base y estructura compartida.
 import type { Metadata } from 'next'
 // Fuentes importadas desde Google Fonts (Next.js): Inter y Chakra Petch
 import { Inter, Chakra_Petch } from 'next/font/google'

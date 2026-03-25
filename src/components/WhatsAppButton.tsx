@@ -1,5 +1,7 @@
 'use client'
 
+// Botón flotante de WhatsApp: atajo persistente para iniciar conversación comercial.
+
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 

@@ -1,3 +1,4 @@
+// Datos de la sección sobre nosotros: valores, historia y narrativa institucional.
 export interface Value {
   name: string;
   description: string;

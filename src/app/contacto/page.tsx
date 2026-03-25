@@ -1,5 +1,7 @@
 'use client'
 
+// Página de contacto: muestra canales directos (correo, teléfono y WhatsApp) y formulario para nuevos proyectos.
+
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'

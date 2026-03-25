@@ -1,5 +1,7 @@
 'use client'
 
+// Página de demos: presenta demostraciones navegables para mostrar capacidades antes de una venta.
+
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'

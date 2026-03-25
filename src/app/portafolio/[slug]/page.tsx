@@ -1,3 +1,4 @@
+// Ruta dinámica de detalle: renderiza la información completa de un proyecto según su slug.
 import { projects } from '@/lib/projects-data'; // Asegúrate de que esta ruta sea correcta
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';

@@ -1,3 +1,4 @@
+// Configuración de servicios: contenido de oferta, beneficios y bloques visuales de la página de servicios.
 import { FaSearch, FaDraftingCompass, FaLaptopCode, FaRocket } from 'react-icons/fa';
 import { HiOutlineCodeBracketSquare, HiOutlineMegaphone, HiOutlineSparkles, HiOutlineCube } from "react-icons/hi2";
 import type { IconType } from 'react-icons';

@@ -1,3 +1,4 @@
+// Catálogo central de proyectos: tipado e información completa usada en listados y detalle dinámico.
 import React from 'react';
 
 import {

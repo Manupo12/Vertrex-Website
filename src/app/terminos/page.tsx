@@ -1,3 +1,4 @@
+// Página legal: define términos y condiciones de uso, propiedad intelectual y alcance del servicio.
 import { ScrollAnimationWrapper } from "@/components/ScrollAnimationWrapper";
 import type { Metadata } from 'next';
 import Link from 'next/link';

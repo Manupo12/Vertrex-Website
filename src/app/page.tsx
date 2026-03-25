@@ -1,5 +1,7 @@
 'use client'
 
+// Página principal: concentra propuesta de valor, pruebas visuales, portafolio resumido y llamados a la acción.
+
 // --- Importaciones ---
 import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'

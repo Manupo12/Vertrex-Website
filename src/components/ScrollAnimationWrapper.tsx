@@ -1,5 +1,7 @@
 'use client'
 
+// Wrapper reutilizable: anima la aparición de bloques cuando entran al viewport.
+
 import { motion } from 'framer-motion'
 
 interface Props {

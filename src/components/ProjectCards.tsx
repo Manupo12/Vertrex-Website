@@ -1,5 +1,7 @@
 'use client'
 
+// Tarjetas de proyectos: renderiza vistas resumidas de apps/webs para listados del portafolio.
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'

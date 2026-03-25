@@ -1,5 +1,7 @@
 'use client'
 
+// Página de cuestionario: flujo guiado multi-paso para recolectar contexto del cliente antes de cotizar.
+
 // Importaciones de React y utilidades
 import { useState, useMemo, ReactNode } from 'react'
 // Animaciones con Framer Motion
