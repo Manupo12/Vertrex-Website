@@ -141,30 +141,6 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: 'refugio-dannita',
-    id: 'refugio-dannita',
-    title: 'Refugio Personal',
-    subtitle: 'Experiencia Web Mobile-First',
-    category: 'Detalle Especial / Interactivo',
-    client: 'Proyecto Especial',
-    year: '2024',
-    description: 'Un espacio digital íntimo diseñado para consolar y acompañar. Cuenta con cartas selladas que guardan en memoria cuáles has leído, un oráculo interactivo "Piscis" nocturno, galería de recuerdos revelable y un entorno inmersivo con flores que reaccionan al tacto.',
-    link: '#',
-    buttonText: 'Ver Experiencia',
-    images: { desktop: '/images/pagados/novia/celular.webp', mobile: '/images/pagados/novia/celular.webp' },
-    color: 'from-violet-500/20 to-purple-500/20',
-    accent: 'text-violet-400',
-    border: 'border-violet-500/30',
-    stack: ['React', 'Tailwind', 'Local Storage', 'Formspree'],
-    tags: ['Mobile First', 'Web App', 'Inmersivo'],
-    features: [
-      { icon: <HiOutlineSparkles />, text: 'Entorno Reactivo', detail: 'Flores flotantes que aparecen donde tocas la pantalla.' },
-      { icon: <HiOutlineHeart />, text: 'Cartas con Memoria', detail: 'Mensajes sellados que recuerdan tu lectura en el dispositivo.' },
-      { icon: <HiOutlineLightBulb />, text: 'Oráculo Interactivo', detail: 'Sección nocturna con frases aleatorias al toque.' },
-      { icon: <HiOutlineBell />, text: 'Notificaciones', detail: 'Avisos silenciosos vía Formspree al interactuar.' }
-    ]
-  },
-  {
     slug: 'felicitacion-sandra',
     id: 'felicitacion-sandra',
     title: 'Felicitación Interactiva',
