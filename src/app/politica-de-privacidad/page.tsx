@@ -153,7 +153,7 @@ export default function PoliticaDePrivacidadPage() {
                 </li>
                 <li className="flex items-start gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-2.5 shrink-0"></div>
-                    <span>Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la ley.</span>
+                    <span>Presentar quejas ante la Superintendencia de Industria y Comercio por infracciones a la ley</span>
                 </li>
             </ul>
         </Section>
