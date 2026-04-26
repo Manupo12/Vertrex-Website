@@ -1,0 +1,88 @@
+@theme {
+  --color-card: #111111;
+  --color-card-foreground: #fafafa;
+  --color-popover: #111111;
+  --color-popover-foreground: #fafafa;
+  --color-primary-foreground: #04150a;
+  --color-secondary-foreground: #fafafa;
+  --color-muted: #1f1f1f;
+  --color-muted-foreground: #9a9a9a;
+  --color-accent: #10331c;
+  --color-accent-foreground: #00fa82;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+  --color-border: #262626;
+  --color-input: #262626;
+  --color-ring: #00fa82;
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-fade-in-up: fade-in-up 0.3s ease-out;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.vertrex-os-theme {
+  --color-background: #050505;
+  --color-foreground: #fafafa;
+  --color-primary: #00fa82;
+  --color-primary-foreground: #04150a;
+  --color-secondary: #171717;
+  --color-secondary-foreground: #fafafa;
+  --color-card: #0b0b0b;
+  --color-card-foreground: #fafafa;
+  --color-popover: #0b0b0b;
+  --color-popover-foreground: #fafafa;
+  --color-muted: #1a1a1a;
+  --color-muted-foreground: #8f8f8f;
+  --color-accent: #11351e;
+  --color-accent-foreground: #00fa82;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+  --color-border: #202020;
+  --color-input: #202020;
+  --color-ring: #00fa82;
+  font-feature-settings: 'rlig' 1, 'calt' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vertrex-os-theme * {
+  box-sizing: border-box;
+}
+
+.vertrex-os-theme .glass {
+  border: 1px solid color-mix(in srgb, var(--color-border), transparent 50%);
+  background-color: color-mix(in srgb, var(--color-background), transparent 40%);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.vertrex-os-theme .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.vertrex-os-theme .no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

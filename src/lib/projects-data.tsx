@@ -14,10 +14,8 @@ import {
   HiOutlineQrCode,
   HiOutlineChartBar,
   HiOutlineMegaphone,
-  HiOutlineBell,
   HiOutlineHeart,
   HiOutlineSparkles,
-  HiOutlineLightBulb,
   HiOutlinePlay,
   HiOutlineComputerDesktop
 } from 'react-icons/hi2';

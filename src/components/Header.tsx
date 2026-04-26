@@ -1,14 +1,13 @@
 'use client'
 
-// Header principal: navegación del sitio, estado del menú móvil y enlaces a secciones comerciales.
-
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
-import { HiXMark, HiBars3BottomRight } from 'react-icons/hi2'
+import { HiArrowRight, HiXMark, HiBars3BottomRight } from 'react-icons/hi2'
 import { FaWhatsapp } from 'react-icons/fa'
+import { getAuthSessionHref, getLocalClientLoginPath, getLocalClientPortalPath, getLocalDashboardPath, getLocalTeamLoginPath } from '@/lib/access-links'
 
 // --- DATOS DE NAVEGACIÓN ---
 const links = [
@@ -22,6 +21,7 @@ const links = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [sessionState, setSessionState] = useState<HeaderSession | null | undefined>(undefined)
   const pathname = usePathname()
   const { scrollY } = useScroll()
 
@@ -39,6 +39,40 @@ export function Header() {
     if (mobileMenuOpen) document.body.style.overflow = 'hidden'
     else document.body.style.overflow = 'unset'
   }, [mobileMenuOpen])
+
+  useEffect(() => {
+    let isMounted = true
+
+    fetch(getAuthSessionHref(), {
+      credentials: 'include',
+      cache: 'no-store',
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          return null
+        }
+
+        const data = (await response.json()) as { session?: HeaderSession | null }
+        return data.session ?? null
+      })
+      .then((session) => {
+        if (isMounted) {
+          setSessionState(session)
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setSessionState(null)
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const primaryAccess = getPrimaryAccess(sessionState)
+  const showPortalLogin = sessionState?.user.role !== 'client'
 
   return (
     <>
@@ -100,7 +134,21 @@ export function Header() {
             </div>
 
             {/* CTA BUTTON (DESKTOP) */}
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
+              <Link 
+                href={primaryAccess.href}
+                className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/10"
+              >
+                {primaryAccess.label}
+              </Link>
+              {showPortalLogin && (
+                <Link 
+                  href={getLocalClientLoginPath()} 
+                  className="rounded-full border border-primary/20 bg-primary/10 px-5 py-2.5 text-sm font-bold text-primary transition-all duration-300 hover:bg-primary/15"
+                >
+                  Portal de cliente
+                </Link>
+              )}
               <Link 
                 href="/contacto" 
                 className={`rounded-full px-6 py-2.5 text-sm font-bold text-black shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 ${isScrolled ? 'bg-white' : 'bg-primary'}`}
@@ -182,7 +230,33 @@ export function Header() {
                   {/* CTA Móvil */}
                   <div className="py-8 space-y-4">
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+                    >
+                        <Link
+                            href={primaryAccess.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="flex items-center justify-center w-full gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-4 text-base font-bold text-white hover:bg-white/10 transition-all"
+                        >
+                            {primaryAccess.label}
+                        </Link>
+                    </motion.div>
+
+                    {showPortalLogin && (
+                      <motion.div 
+                          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                      >
+                          <Link
+                              href={getLocalClientLoginPath()}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="flex items-center justify-center w-full gap-2 rounded-xl border border-primary/20 bg-primary/10 px-3 py-4 text-base font-bold text-primary hover:bg-primary/15 transition-all"
+                          >
+                              Portal de cliente
+                          </Link>
+                      </motion.div>
+                    )}
+
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
                     >
                         <Link
                             href="/contacto"
@@ -216,5 +290,30 @@ export function Header() {
   )
 }
 
-// Icono auxiliar para flecha
-import { HiArrowRight } from 'react-icons/hi2'
+type HeaderSession = {
+  user: {
+    role: 'team' | 'client'
+    clientSlug: string | null
+  }
+}
+
+function getPrimaryAccess(session: HeaderSession | null | undefined) {
+  if (session?.user.role === 'team') {
+    return {
+      href: getLocalDashboardPath(),
+      label: 'Ir al dashboard',
+    }
+  }
+
+  if (session?.user.role === 'client') {
+    return {
+      href: getLocalClientPortalPath(session.user.clientSlug ?? 'budaphone'),
+      label: 'Ver mi portal',
+    }
+  }
+
+  return {
+    href: getLocalTeamLoginPath(),
+    label: 'Acceder al OS',
+  }
+}

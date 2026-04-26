@@ -13,12 +13,11 @@ import {
     HiOutlineDevicePhoneMobile,
     HiOutlineSparkles,
     HiArrowRight,
-    HiOutlineLightBulb,
     HiOutlinePlay,
     HiChevronLeft,
     HiChevronRight
 } from 'react-icons/hi2'
-import { FaInstagram, FaGlobe } from 'react-icons/fa'
+import { FaInstagram } from 'react-icons/fa'
 
 export default function DemosPage() {
     const [currentIndex, setCurrentIndex] = useState(0)

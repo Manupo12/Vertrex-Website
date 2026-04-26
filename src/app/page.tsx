@@ -45,6 +45,7 @@ import { BiShield } from 'react-icons/bi'
 import { FiRefreshCw, FiPrinter } from 'react-icons/fi'
 import { HiOutlineSearch } from 'react-icons/hi'
 import { demos } from '@/lib/demos-data'
+import { getLocalClientLoginPath, getLocalTeamLoginPath } from '@/lib/access-links'
 
 // Tipo de dato ligero para los proyectos de esta página
 type ProjectLite = {
@@ -831,6 +832,61 @@ const CommunityShowcase = () => {
     )
 }
 
+const AccessSection = () => {
+    return (
+        <section className="py-24 px-6 bg-neutral-950 relative overflow-hidden border-t border-white/5">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,127,0.08),transparent_55%)]"></div>
+            <div className="mx-auto max-w-6xl relative z-10">
+                <div className="text-center mb-12">
+                    <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Acceso Operativo</span>
+                    <h2 className="text-4xl md:text-5xl font-bold font-display text-white tracking-tight">
+                        ¿Ya trabajas con nosotros?
+                    </h2>
+                    <p className="text-lg text-neutral-400 max-w-2xl mx-auto mt-4 leading-relaxed">
+                        Accede al entorno correcto según tu perfil. Si ya tienes sesión, te redirigimos automáticamente al destino correspondiente.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Link
+                        href={getLocalTeamLoginPath()}
+                        className="group rounded-[2rem] border border-white/10 bg-white/5 p-8 hover:border-primary/30 hover:bg-white/[0.07] transition-all duration-300"
+                    >
+                        <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform duration-300">
+                            <HiOutlineCpuChip size={28} />
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Equipo Vertrex</span>
+                        <h3 className="text-2xl font-bold text-white font-display mt-4 mb-3">Acceder al OS</h3>
+                        <p className="text-neutral-400 leading-relaxed mb-8">
+                            Dashboard interno para operaciones, IA, automatizaciones, documentos y coordinación del equipo.
+                        </p>
+                        <div className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-primary transition-colors">
+                            Ir al acceso del equipo <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                    </Link>
+
+                    <Link
+                        href={getLocalClientLoginPath()}
+                        className="group rounded-[2rem] border border-primary/20 bg-primary/10 p-8 hover:bg-primary/15 transition-all duration-300"
+                    >
+                        <div className="w-14 h-14 rounded-2xl bg-black/30 border border-primary/20 flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform duration-300">
+                            <HiOutlineUserGroup size={28} />
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Clientes Vertrex</span>
+                        <h3 className="text-2xl font-bold text-white font-display mt-4 mb-3">Portal de cliente</h3>
+                        <p className="text-neutral-300 leading-relaxed mb-8">
+                            Seguimiento del proyecto, documentos compartidos, facturación, archivos, soporte y chat directo con Vertrex.
+                        </p>
+                        <div className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-primary transition-colors">
+                            Entrar al portal <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                    </Link>
+                </div>
+            </div>
+        </section>
+    )
+}
+
 // --- 4. PLANTILLAS DE NEGOCIO (CATÁLOGO EXPANDIDO - REDISEÑO FULL PAGE) ---
 const TemplatesShowcase = ({ templatesData: passedTemplates }: { templatesData?: ProjectLite[] } = {}) => {
     const templates = (passedTemplates && passedTemplates.length) ? passedTemplates : templatesData;
@@ -1428,6 +1484,7 @@ export default function HomePage() {
       <TemplatesShowcase /> {/* 3. Plantillas */}
             <LabShowcase /> {/* 4. Conceptos */}
       <CtaSection />
+      <AccessSection />
     </main>
   )
 }

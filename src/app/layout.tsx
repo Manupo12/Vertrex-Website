@@ -1,13 +1,12 @@
 // Layout raíz de la aplicación: aplica fuentes, estilos globales, metadata base y estructura compartida.
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 // Fuentes importadas desde Google Fonts (Next.js): Inter y Chakra Petch
 import { Inter, Chakra_Petch } from 'next/font/google'
 // Estilos globales del proyecto
 import './globals.css'
+import './os-theme.css'
 // Componentes principales del layout
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
-import { WhatsAppButton } from '@/components/WhatsAppButton' 
+import { AppChrome } from '@/components/AppChrome'
 
 // Configuración de las fuentes para poder usarlas como variables CSS
 // `inter.variable` y `chakraPetch.variable` se inyectan en la clase del body
@@ -26,13 +25,14 @@ const chakraPetch = Chakra_Petch({
 export const metadata: Metadata = {
   title: 'Vertrex | Soluciones Digitales que te Entienden',
   description: 'Desarrollo de páginas web, apps para Android y marketing digital en Neiva. Obtén una demo gratuita de tu proyecto. Calidad profesional a precios justos.',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: '#0A0A0A',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1, 
-    userScalable: false,
-  },
 }
 
 // RootLayout: componente que envuelve todas las páginas
@@ -48,11 +48,7 @@ export default function RootLayout({
     <html lang="es" className="h-full scroll-smooth">
       {/* Aplicamos las variables de fuente y clases globales en el body */}
       <body className={`${inter.variable} ${chakraPetch.variable} h-full flex flex-col bg-background font-sans text-foreground`}>
-        <Header />
-        <main className="flex-grow pb-12">{children}</main>
-        <Footer />
-        {/* Botón flotante de WhatsApp (componente reutilizable) */}
-        <WhatsAppButton /> 
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   )

@@ -24,8 +24,6 @@ import {
     HiOutlineMegaphone,
     HiOutlineIdentification,
     HiOutlineQrCode,
-    HiOutlineLightBulb,
-    HiOutlineBell,
     HiOutlinePlay,
     HiOutlineChartBar
 } from 'react-icons/hi2'

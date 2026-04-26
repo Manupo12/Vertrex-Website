@@ -6,16 +6,29 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate --config vertrex-os/drizzle.config.ts",
+    "db:push": "drizzle-kit push --config vertrex-os/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config vertrex-os/drizzle.config.ts",
+    "db:seed": "tsx vertrex-os/src/lib/db/seed.ts",
+    "setup:neon": "tsx vertrex-os/src/scripts/setup-neon.ts"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.2",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
+    "jose": "^6.2.2",
+    "lucide-react": "^1.8.0",
     "next": "^15.5.12",
+    "postgres": "^3.4.9",
+    "puppeteer": "^24.42.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
-    "react-type-animation": "^3.2.0"
+    "react-type-animation": "^3.2.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -23,9 +36,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

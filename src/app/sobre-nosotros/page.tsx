@@ -6,7 +6,6 @@ import { ScrollAnimationWrapper } from "@/components/ScrollAnimationWrapper";
 import Link from "next/link";
 import { 
   HiOutlineUserGroup, 
-  HiOutlineLightBulb, 
   HiOutlineScale, 
   HiOutlineHeart,
   HiOutlineCodeBracketSquare,
