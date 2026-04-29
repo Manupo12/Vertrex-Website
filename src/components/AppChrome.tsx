@@ -3,11 +3,8 @@
 import type { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 
-import Providers from '@os/components/providers'
-
-import { Footer } from '@/components/Footer'
-import { Header } from '@/components/Header'
-import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { MarketingChrome } from '@/components/chrome/MarketingChrome'
+import { OperationalChrome } from '@/components/chrome/OperationalChrome'
 
 type AppChromeProps = {
   children: ReactNode
@@ -21,19 +18,8 @@ export function AppChrome({ children }: AppChromeProps) {
   const pathname = usePathname() ?? '/'
 
   if (isOperationalPath(pathname)) {
-    return (
-      <div className="vertrex-os-theme flex min-h-full flex-1 flex-col bg-background font-sans text-foreground">
-        <Providers>{children}</Providers>
-      </div>
-    )
+    return <OperationalChrome>{children}</OperationalChrome>
   }
 
-  return (
-    <>
-      <Header />
-      <main className="flex-grow pb-12">{children}</main>
-      <Footer />
-      <WhatsAppButton />
-    </>
-  )
+  return <MarketingChrome>{children}</MarketingChrome>
 }

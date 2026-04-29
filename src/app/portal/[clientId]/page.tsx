@@ -1,4 +1,4 @@
-import { renderClientPortalPage } from '@os/lib/portal/render-page'
+import { renderClientPortalPage } from '@/lib/portal/render-page'
 
 type PortalPageProps = {
   params: Promise<{ clientId: string }>

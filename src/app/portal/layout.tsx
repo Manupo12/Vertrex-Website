@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { redirect } from 'next/navigation'
 
-import { getCurrentSession } from '@os/lib/auth/session'
+import { getCurrentSession } from '@/lib/auth/session'
 
 export default async function PortalLayout({ children }: { children: ReactNode }) {
   const session = await getCurrentSession()

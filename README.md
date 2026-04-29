@@ -13,8 +13,6 @@ La aplicación raíz ya unifica en un solo host y puerto:
 
 Además, la raíz expone las APIs operativas reales bajo `/api/*`.
 
-El directorio `./vertrex-os` sigue existiendo como fuente del dominio operativo, pero ahora sus vistas, auth, portal y APIs se integran y compilan desde la app raíz.
-
 ## 🌍 Demo en vivo
 
 - [https://vertrex-website.vercel.app/](https://vertrex-website.vercel.app/)
@@ -49,12 +47,17 @@ Esta web está construida para:
 ```text
 src/
   app/                # Rutas del App Router (páginas)
+  app/_os/            # Árbol privado migrado del OS (no expone rutas directas)
   components/         # Componentes reutilizables de UI
-  lib/                # Datos estáticos, renderers y router API del OS
+  hooks/              # Hooks operativos compartidos
+  lib/                # Datos estáticos, auth, portal, docs y router API del OS
+  store/              # Estado cliente compartido del OS
+  types/              # Tipos compartidos
 ```
 
 - `src/app/layout.tsx`: layout raíz, fuentes globales y metadata base.
 - `src/app/globals.css`: estilos globales y variables de tema.
+- `src/app/_os/*`: páginas y route handlers internos migrados desde Vertrex OS.
 - `src/app/os/*`: rutas operativas reales bajo `/os`.
 - `src/app/portal/*`: portal de clientes real bajo `/portal`.
 - `src/app/api/[...slug]/route.ts`: router unificado para exponer auth, docs y OpenClaw.
@@ -74,6 +77,7 @@ src/
 - **Drizzle ORM + PostgreSQL/Neon**
 - **Lucide React**
 - **Puppeteer**
+- **Playwright + Vercel Blob + Handlebars**
 - **Zod**
 
 ## 🚀 Desarrollo local
@@ -92,7 +96,9 @@ La app raíz usa:
 - `AUTH_SECRET`
 - `OPENCLAW_API_KEY`
 - `OPENCLAW_WEBHOOK_SECRET`
+- `BLOB_READ_WRITE_TOKEN`
 - `PUPPETEER_EXECUTABLE_PATH` (opcional)
+- `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` (opcional)
 
 Ejemplo:
 

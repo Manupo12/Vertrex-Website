@@ -1,5 +1,29 @@
 /* Archivo global de estilos: define tema base, utilidades y ajustes visuales compartidos en toda la web. */
 @import "tailwindcss";
+@source "../../vertrex-os/src";
+
+:root {
+  --theme-background: 0 0% 4%;
+  --theme-foreground: 0 0% 90%;
+  --theme-primary: 136 100% 66%;
+  --theme-primary-foreground: 0 0% 4%;
+  --theme-secondary: 0 0% 100%;
+  --theme-secondary-foreground: 0 0% 4%;
+  --theme-card: 0 0% 6%;
+  --theme-card-foreground: 0 0% 90%;
+  --theme-popover: 0 0% 6%;
+  --theme-popover-foreground: 0 0% 90%;
+  --theme-muted: 0 0% 14%;
+  --theme-muted-foreground: 0 0% 64%;
+  --theme-accent: 136 100% 18%;
+  --theme-accent-foreground: 136 100% 66%;
+  --theme-destructive: 0 84% 60%;
+  --theme-destructive-foreground: 0 0% 98%;
+  --theme-border: 0 0% 16%;
+  --theme-input: 0 0% 16%;
+  --theme-ring: 136 100% 66%;
+  --theme-radius: 0.75rem;
+}
 
 /* En Tailwind v4, usamos @theme para definir todo.
   Las variables de fuentes vienen de Next.js (layout), 
@@ -8,16 +32,35 @@
 @theme {
   /* --- COLORES --- */
   /* Definimos los valores directamente aquí. */
-  --color-background: #0A0A0A; /* Negro profundo */
-  --color-foreground: #E5E5E5; /* Blanco suave (texto principal) */
+  --color-background: hsl(var(--theme-background)); /* Negro profundo */
+  --color-foreground: hsl(var(--theme-foreground)); /* Blanco suave (texto principal) */
   
-  --color-primary: #4fff7b;    /* Vertrex Green (requested) */
-  --color-secondary: #FFFFFF;  /* Blanco puro (Acentos) */
+  --color-primary: hsl(var(--theme-primary));    /* Vertrex Green (requested) */
+  --color-primary-foreground: hsl(var(--theme-primary-foreground));
+  --color-secondary: hsl(var(--theme-secondary));  /* Blanco puro (Acentos) */
+  --color-secondary-foreground: hsl(var(--theme-secondary-foreground));
+  --color-card: hsl(var(--theme-card));
+  --color-card-foreground: hsl(var(--theme-card-foreground));
+  --color-popover: hsl(var(--theme-popover));
+  --color-popover-foreground: hsl(var(--theme-popover-foreground));
+  --color-muted: hsl(var(--theme-muted));
+  --color-muted-foreground: hsl(var(--theme-muted-foreground));
+  --color-accent: hsl(var(--theme-accent));
+  --color-accent-foreground: hsl(var(--theme-accent-foreground));
+  --color-destructive: hsl(var(--theme-destructive));
+  --color-destructive-foreground: hsl(var(--theme-destructive-foreground));
+  --color-border: hsl(var(--theme-border));
+  --color-input: hsl(var(--theme-input));
+  --color-ring: hsl(var(--theme-ring));
 
   /* --- FUENTES --- */
   /* Conectamos las variables que inyecta Next.js */
   --font-sans: var(--font-inter);
   --font-display: var(--font-chakra-petch);
+
+  --radius-lg: var(--theme-radius);
+  --radius-md: calc(var(--theme-radius) - 2px);
+  --radius-sm: calc(var(--theme-radius) - 4px);
 
   /* --- ANIMACIONES --- */
   /* Definimos la animación directamente en el tema */

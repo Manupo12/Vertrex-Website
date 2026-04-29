@@ -1,5 +1,5 @@
-import { renderClientPortalPage } from '@os/lib/portal/render-page'
-import { coercePortalView } from '@os/lib/portal/routing'
+import { renderClientPortalPage } from '@/lib/portal/render-page'
+import { coercePortalView } from '@/lib/portal/routing'
 
 type PortalSectionPageProps = {
   params: Promise<{ clientId: string; section: string }>

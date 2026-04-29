@@ -11,6 +11,28 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    files: ["src/app/_os/**/*.ts", "src/app/_os/**/*.tsx"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "react/no-unescaped-entities": "off",
+    },
+  },
+  {
+    files: [
+      "src/components/dashboard/**/*.ts",
+      "src/components/dashboard/**/*.tsx",
+      "src/components/modals/**/*.ts",
+      "src/components/modals/**/*.tsx",
+      "src/components/shell/**/*.ts",
+      "src/components/shell/**/*.tsx",
+      "src/components/slide-overs/**/*.ts",
+      "src/components/slide-overs/**/*.tsx",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

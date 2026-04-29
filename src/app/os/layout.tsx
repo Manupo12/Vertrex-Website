@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { redirect } from 'next/navigation'
 
-import OSShell from '@os/components/os/os-shell'
-import { getCurrentSession } from '@os/lib/auth/session'
+import OSShell from '@/components/os/os-shell'
+import { getCurrentSession } from '@/lib/auth/session'
 
 export default async function OSLayout({ children }: { children: ReactNode }) {
   const session = await getCurrentSession()

@@ -7,15 +7,15 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { HiArrowRight, HiXMark, HiBars3BottomRight } from 'react-icons/hi2'
 import { FaWhatsapp } from 'react-icons/fa'
-import { getAuthSessionHref, getLocalClientLoginPath, getLocalClientPortalPath, getLocalDashboardPath, getLocalTeamLoginPath } from '@/lib/access-links'
+import { getAuthSessionHref, getLocalClientPortalPath, getLocalDashboardPath, getLocalTeamLoginPath } from '@/lib/access-links'
 
 // --- DATOS DE NAVEGACIÓN ---
 const links = [
   { href: '/servicios', label: 'Servicios' },
-  { href: '/demos', label: 'Demostraciones' }, // Cambié "Demos" por "Laboratorio" para sonar más pro
+  { href: '/demos', label: 'Laboratorio' }, 
   { href: '/portafolio', label: 'Portafolio' },
   { href: '/sobre-nosotros', label: 'Nosotros' },
-  { href: '/contacto', label: 'Contacto' } // "Manifiesto" suena más fuerte que "Sobre Nosotros"
+  { href: '/contacto', label: 'Contacto' } 
 ]
 
 export function Header() {
@@ -72,7 +72,6 @@ export function Header() {
   }, [])
 
   const primaryAccess = getPrimaryAccess(sessionState)
-  const showPortalLogin = sessionState?.user.role !== 'client'
 
   return (
     <>
@@ -94,7 +93,6 @@ export function Header() {
             {/* LOGO */}
             <div className="flex lg:flex-1">
               <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3 group" aria-label="Inicio">
-                {/* Asegúrate de tener tu logo en public/images/logo.png */}
                 <div className="relative w-8 h-8 overflow-hidden rounded-lg">
                     <Image
                         src="/images/logo.png" 
@@ -135,20 +133,14 @@ export function Header() {
 
             {/* CTA BUTTON (DESKTOP) */}
             <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
+              {/* Único botón de acceso pulido e integrado */}
               <Link 
                 href={primaryAccess.href}
-                className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:border-white/20 hover:bg-white/10"
+                className="rounded-full border border-white/10 bg-white/5 px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:text-primary"
               >
-                {primaryAccess.label}
+                Acceder
               </Link>
-              {showPortalLogin && (
-                <Link 
-                  href={getLocalClientLoginPath()} 
-                  className="rounded-full border border-primary/20 bg-primary/10 px-5 py-2.5 text-sm font-bold text-primary transition-all duration-300 hover:bg-primary/15"
-                >
-                  Portal de cliente
-                </Link>
-              )}
+              
               <Link 
                 href="/contacto" 
                 className={`rounded-full px-6 py-2.5 text-sm font-bold text-black shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 ${isScrolled ? 'bg-white' : 'bg-primary'}`}
@@ -229,34 +221,21 @@ export function Header() {
                   
                   {/* CTA Móvil */}
                   <div className="py-8 space-y-4">
+                    {/* Botón único de Acceso en móvil */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
                     >
                         <Link
                             href={primaryAccess.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center justify-center w-full gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-4 text-base font-bold text-white hover:bg-white/10 transition-all"
+                            className="flex items-center justify-center w-full gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-4 text-base font-bold text-white hover:border-primary/50 hover:bg-primary/10 hover:text-primary transition-all"
                         >
-                            {primaryAccess.label}
+                            Acceder
                         </Link>
                     </motion.div>
 
-                    {showPortalLogin && (
-                      <motion.div 
-                          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-                      >
-                          <Link
-                              href={getLocalClientLoginPath()}
-                              onClick={() => setMobileMenuOpen(false)}
-                              className="flex items-center justify-center w-full gap-2 rounded-xl border border-primary/20 bg-primary/10 px-3 py-4 text-base font-bold text-primary hover:bg-primary/15 transition-all"
-                          >
-                              Portal de cliente
-                          </Link>
-                      </motion.div>
-                    )}
-
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.40 }}
                     >
                         <Link
                             href="/contacto"
@@ -268,7 +247,7 @@ export function Header() {
                     </motion.div>
                     
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
                     >
                         <Link
                             href="https://wa.me/573000000000"
@@ -297,23 +276,15 @@ type HeaderSession = {
   }
 }
 
+// Mantuvimos tu lógica intacta para rutear dinámicamente según el estado de la sesión
 function getPrimaryAccess(session: HeaderSession | null | undefined) {
   if (session?.user.role === 'team') {
-    return {
-      href: getLocalDashboardPath(),
-      label: 'Ir al dashboard',
-    }
+    return { href: getLocalDashboardPath() }
   }
 
   if (session?.user.role === 'client') {
-    return {
-      href: getLocalClientPortalPath(session.user.clientSlug ?? 'budaphone'),
-      label: 'Ver mi portal',
-    }
+    return { href: getLocalClientPortalPath(session.user.clientSlug ?? 'budaphone') }
   }
 
-  return {
-    href: getLocalTeamLoginPath(),
-    label: 'Acceder al OS',
-  }
+  return { href: getLocalTeamLoginPath() }
 }
